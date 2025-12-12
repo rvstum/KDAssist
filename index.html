@@ -14,9 +14,24 @@
 
         body {
             background-color: #000;
+            background-image: url('icons/untitled(5).png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
             color: #d4af37;
             font-family: Arial, sans-serif;
             padding: 20px 0;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
         }
 
         .container {
@@ -77,9 +92,14 @@
         .icon-placeholder {
             width: 60px;
             height: 60px;
-            background: #8B7355;
             margin: 0 auto 8px;
             border-radius: 4px;
+        }
+
+        .icon-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .icon-label {
@@ -141,9 +161,14 @@
         .tree-icon {
             width: 60px;
             height: 60px;
-            background: #DAA520;
             margin: 0 auto;
             border-radius: 50%;
+        }
+
+        .tree-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .slider-container {
@@ -206,8 +231,13 @@
         .preview-content {
             width: 150px;
             height: 150px;
-            background: #8B7355;
             border-radius: 4px;
+        }
+
+        .preview-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         /* Reset button */
@@ -243,11 +273,17 @@
             height: 50px;
             background: transparent;
             border: 2px solid #8B7355;
-            color: #DAA520;
-            font-size: 24px;
             cursor: pointer;
             border-radius: 8px;
             transition: all 0.2s;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .nav-arrow img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .nav-arrow:hover:not(:disabled) {
@@ -288,6 +324,51 @@
             object-fit: cover;
         }
 
+        /* Modal overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            animation: blink 0.3s ease;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border: 3px solid #DAA520;
+            border-radius: 8px;
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
         /* Bottom section */
         .bottom-section {
             margin-top: 40px;
@@ -303,9 +384,34 @@
         .character-sprite {
             width: 80px;
             height: 80px;
-            background: #8B7355;
             margin: 0 auto 10px;
             border-radius: 50%;
+        }
+
+        .character-sprite img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .highfive-image {
+            width: 100px;
+            margin: 0 auto 10px;
+        }
+
+        .highfive-image img {
+            width: 100%;
+            height: auto;
+        }
+
+        .logo-image {
+            max-width: 400px;
+            margin: 0 auto 20px;
+        }
+
+        .logo-image img {
+            width: 100%;
+            height: auto;
         }
 
         .site-title {
@@ -340,19 +446,19 @@
                 <div class="section-subtitle">Select only one (Deselect all to show all regions)</div>
                 <div class="region-icons" id="regionFilters">
                     <div class="icon-item" data-filter="Overworld">
-                        <div class="icon-placeholder"></div>
+                        <div class="icon-placeholder"><img src="icons/deco28.png" alt="Overworld"></div>
                         <div class="icon-label">Overworld</div>
                     </div>
                     <div class="icon-item" data-filter="Snow">
-                        <div class="icon-placeholder"></div>
+                        <div class="icon-placeholder"><img src="icons/deco27.png" alt="Snow"></div>
                         <div class="icon-label">Snow</div>
                     </div>
                     <div class="icon-item" data-filter="Cavern">
-                        <div class="icon-placeholder"></div>
+                        <div class="icon-placeholder"><img src="icons/deco26.png" alt="Cavern"></div>
                         <div class="icon-label highlight">Cavern</div>
                     </div>
                     <div class="icon-item" data-filter="Big City">
-                        <div class="icon-placeholder"></div>
+                        <div class="icon-placeholder"><img src="icons/deco29.png" alt="Big City"></div>
                         <div class="icon-label">Big City</div>
                     </div>
                 </div>
@@ -363,15 +469,15 @@
                 <div class="section-title">Entity</div>
                 <div class="entity-icons" id="entityFilters">
                     <div class="icon-item" data-filter="Baddy">
-                        <div class="icon-placeholder"></div>
+                        <div class="icon-placeholder"><img src="icons/deco18.png" alt="Baddy"></div>
                         <div class="icon-label">Baddy</div>
                     </div>
                     <div class="icon-item" data-filter="NPC">
-                        <div class="icon-placeholder"></div>
+                        <div class="icon-placeholder"><img src="icons/deco17.png" alt="NPC"></div>
                         <div class="icon-label">NPC</div>
                     </div>
                     <div class="icon-item" data-filter="Bug">
-                        <div class="icon-placeholder"></div>
+                        <div class="icon-placeholder"><img src="icons/deco19.png" alt="Bug"></div>
                         <div class="icon-label">Bug</div>
                     </div>
                 </div>
@@ -383,7 +489,7 @@
                 <div class="section-subtitle">(containing tables, chairs, boxes, statues, bridges, market stands, pillars etc. that isn't included in the filter list)</div>
                 <div class="addition-icons" id="additionFilters">
                     <div class="icon-item" data-filter="Other">
-                        <div class="icon-placeholder"></div>
+                        <div class="icon-placeholder"><img src="icons/deco31.png" alt="Other"></div>
                         <div class="icon-label">Other</div>
                     </div>
                 </div>
@@ -394,83 +500,83 @@
         <div style="margin-bottom: 30px;">
             <div class="addition-icons" id="fullAdditionFilters" style="grid-template-columns: repeat(12, 1fr); gap: 10px;">
                 <div class="icon-item" data-filter="Tree">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco1.png" alt="Tree"></div>
                     <div class="icon-label">Tree</div>
                 </div>
                 <div class="icon-item" data-filter="Red Tree">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco2.png" alt="Red Tree"></div>
                     <div class="icon-label">Red Tree</div>
                 </div>
                 <div class="icon-item" data-filter="Trunk">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco3.png" alt="Trunk"></div>
                     <div class="icon-label">Trunk</div>
                 </div>
                 <div class="icon-item" data-filter="Grass">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco4.png" alt="Grass"></div>
                     <div class="icon-label">Grass</div>
                 </div>
                 <div class="icon-item" data-filter="Bush">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco5.png" alt="Bush"></div>
                     <div class="icon-label">Bush</div>
                 </div>
                 <div class="icon-item" data-filter="Flower">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco10.png" alt="Flower"></div>
                     <div class="icon-label">Flower</div>
                 </div>
                 <div class="icon-item" data-filter="Water">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco13.png" alt="Water"></div>
                     <div class="icon-label">Water</div>
                 </div>
                 <div class="icon-item" data-filter="Dirt">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco6.png" alt="Dirt"></div>
                     <div class="icon-label">Dirt</div>
                 </div>
                 <div class="icon-item" data-filter="Sign">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco8.png" alt="Sign"></div>
                     <div class="icon-label">Sign</div>
                 </div>
                 <div class="icon-item" data-filter="Stone">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco7.png" alt="Stone"></div>
                     <div class="icon-label">Stone</div>
                 </div>
                 <div class="icon-item" data-filter="Building">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco16.png" alt="Building"></div>
                     <div class="icon-label">Building</div>
                 </div>
                 <div class="icon-item" data-filter="Doorway">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco15.png" alt="Doorway"></div>
                     <div class="icon-label">Doorway</div>
                 </div>
                 <div class="icon-item" data-filter="Path">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco11.png" alt="Path"></div>
                     <div class="icon-label">Path</div>
                 </div>
                 <div class="icon-item" data-filter="Boundary">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco14.png" alt="Boundary"></div>
                     <div class="icon-label">Boundary</div>
                 </div>
                 <div class="icon-item" data-filter="Fence">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco32.png" alt="Fence"></div>
                     <div class="icon-label">Fence</div>
                 </div>
                 <div class="icon-item" data-filter="Hedge">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco30.png" alt="Hedge"></div>
                     <div class="icon-label">Hedge</div>
                 </div>
                 <div class="icon-item" data-filter="Boulder">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco12.png" alt="Boulder"></div>
                     <div class="icon-label">Boulder</div>
                 </div>
                 <div class="icon-item" data-filter="Rail">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco20.png" alt="Rail"></div>
                     <div class="icon-label">Rail</div>
                 </div>
                 <div class="icon-item" data-filter="Mushroom">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco9.png" alt="Mushroom"></div>
                     <div class="icon-label">Mushroom</div>
                 </div>
                 <div class="icon-item" data-filter="Void">
-                    <div class="icon-placeholder"></div>
+                    <div class="icon-placeholder"><img src="icons/deco21.png" alt="Void"></div>
                     <div class="icon-label">Void</div>
                 </div>
             </div>
@@ -482,7 +588,7 @@
             <div class="advanced-subtitle">Number of Trees</div>
             <div class="slider-row">
                 <div class="tree-graphic">
-                    <div class="tree-icon"></div>
+                    <div class="tree-icon"><img src="icons/deco1.png" alt="Tree"></div>
                 </div>
                 <div class="slider-container">
                     <div class="slider-track">
@@ -500,7 +606,7 @@
                     </div>
                 </div>
                 <div class="preview-box">
-                    <div class="preview-content"></div>
+                    <div class="preview-content"><img src="icons/deco24.png" alt="Preview"></div>
                 </div>
             </div>
         </div>
@@ -510,13 +616,20 @@
 
         <!-- Gallery navigation -->
         <div class="gallery-nav">
-            <button class="nav-arrow" id="prevBtn">◄</button>
-            <button class="nav-arrow" id="nextBtn">►</button>
+            <button class="nav-arrow" id="prevBtn"><img src="icons/Copy of deco33.png" alt="Previous"></button>
+            <button class="nav-arrow" id="nextBtn"><img src="icons/Copy of deco33_edited.png" alt="Next"></button>
         </div>
 
         <!-- Gallery grid -->
         <div class="gallery-grid" id="mapGallery">
             <!-- Maps loaded here -->
+        </div>
+
+        <!-- Modal for location screenshot -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal-content">
+                <img id="modalImage" src="" alt="Location">
+            </div>
         </div>
 
         <!-- Bottom section -->
@@ -547,8 +660,23 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             setupEventListeners();
+            setupModal();
             loadCSV();
         });
+
+        function setupModal() {
+            const modal = document.getElementById('modalOverlay');
+            modal.addEventListener('click', function() {
+                this.classList.remove('active');
+            });
+        }
+
+        function showLocationImage(locationImage) {
+            const modal = document.getElementById('modalOverlay');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = locationImage;
+            modal.classList.add('active');
+        }
 
         function setupEventListeners() {
             document.getElementById('regionFilters').addEventListener('click', handleRegionClick);
@@ -691,8 +819,8 @@
             const end = start + mapsPerPage;
             const pageMaps = filteredMaps.slice(start, end);
 
-            gallery.innerHTML = pageMaps.map(map => `
-                <div class="map-thumbnail">
+            gallery.innerHTML = pageMaps.map((map, index) => `
+                <div class="map-thumbnail" onclick="showLocationImage('${map.locationImage}')">
                     <img src="${map.mapImage}" alt="Map" onerror="this.style.display='none'">
                 </div>
             `).join('');
