@@ -40,7 +40,6 @@
             padding: 0 20px;
         }
 
-        /* Top section with 3 columns */
         .top-section {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
@@ -63,7 +62,6 @@
             margin-bottom: 15px;
         }
 
-        /* Region section */
         .region-icons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -112,21 +110,18 @@
             text-decoration: underline;
         }
 
-        /* Entity section */
         .entity-icons {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
         }
 
-        /* Addition section */
         .addition-icons {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
         }
 
-        /* Advanced section */
         .advanced-section {
             margin-bottom: 20px;
             padding: 20px;
@@ -240,7 +235,6 @@
             object-fit: contain;
         }
 
-        /* Reset button */
         .reset-button {
             width: 100%;
             padding: 15px;
@@ -260,7 +254,6 @@
             border-color: #DAA520;
         }
 
-        /* Gallery section */
         .gallery-nav {
             display: flex;
             justify-content: center;
@@ -324,7 +317,6 @@
             object-fit: cover;
         }
 
-        /* Modal overlay */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -369,7 +361,6 @@
             50% { opacity: 0.3; }
         }
 
-        /* Bottom section */
         .bottom-section {
             margin-top: 40px;
             padding-top: 30px;
@@ -385,7 +376,6 @@
             width: 80px;
             height: 80px;
             margin: 0 auto 10px;
-            border-radius: 50%;
         }
 
         .character-sprite img {
@@ -414,33 +404,17 @@
             height: auto;
         }
 
-        .site-title {
-            font-size: 48px;
-            font-weight: bold;
-            color: #DAA520;
-            text-align: center;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
         .credits {
             text-align: center;
             color: #666;
             font-size: 12px;
             line-height: 1.8;
         }
-
-        .credits a {
-            color: #8B7355;
-            text-decoration: none;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Top 3-column section -->
         <div class="top-section">
-            <!-- Region -->
             <div>
                 <div class="section-title">Region</div>
                 <div class="section-subtitle">Select only one (Deselect all to show all regions)</div>
@@ -464,26 +438,24 @@
                 </div>
             </div>
 
-            <!-- Entity -->
             <div>
                 <div class="section-title">Entity</div>
                 <div class="entity-icons" id="entityFilters">
                     <div class="icon-item" data-filter="Baddy">
-                        <div class="icon-placeholder"><img src="icons/deco18.png" alt="Baddy"></div>
+                        <div class="icon-placeholder"><img src="icons/Deco18.png" alt="Baddy"></div>
                         <div class="icon-label">Baddy</div>
                     </div>
                     <div class="icon-item" data-filter="NPC">
-                        <div class="icon-placeholder"><img src="icons/deco17.png" alt="NPC"></div>
+                        <div class="icon-placeholder"><img src="icons/Deco17.png" alt="NPC"></div>
                         <div class="icon-label">NPC</div>
                     </div>
                     <div class="icon-item" data-filter="Bug">
-                        <div class="icon-placeholder"><img src="icons/deco19.png" alt="Bug"></div>
+                        <div class="icon-placeholder"><img src="icons/Deco19.png" alt="Bug"></div>
                         <div class="icon-label">Bug</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Addition -->
             <div>
                 <div class="section-title">Addition</div>
                 <div class="section-subtitle">(containing tables, chairs, boxes, statues, bridges, market stands, pillars etc. that isn't included in the filter list)</div>
@@ -496,63 +468,62 @@
             </div>
         </div>
 
-        <!-- Full width additions -->
         <div style="margin-bottom: 30px;">
             <div class="addition-icons" id="fullAdditionFilters" style="grid-template-columns: repeat(12, 1fr); gap: 10px;">
                 <div class="icon-item" data-filter="Tree">
-                    <div class="icon-placeholder"><img src="icons/deco1.png" alt="Tree"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco1.png" alt="Tree"></div>
                     <div class="icon-label">Tree</div>
                 </div>
                 <div class="icon-item" data-filter="Red Tree">
-                    <div class="icon-placeholder"><img src="icons/deco2.png" alt="Red Tree"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco2.png" alt="Red Tree"></div>
                     <div class="icon-label">Red Tree</div>
                 </div>
                 <div class="icon-item" data-filter="Trunk">
-                    <div class="icon-placeholder"><img src="icons/deco3.png" alt="Trunk"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco3.png" alt="Trunk"></div>
                     <div class="icon-label">Trunk</div>
                 </div>
                 <div class="icon-item" data-filter="Grass">
-                    <div class="icon-placeholder"><img src="icons/deco4.png" alt="Grass"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco4.png" alt="Grass"></div>
                     <div class="icon-label">Grass</div>
                 </div>
                 <div class="icon-item" data-filter="Bush">
-                    <div class="icon-placeholder"><img src="icons/deco5.png" alt="Bush"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco5.png" alt="Bush"></div>
                     <div class="icon-label">Bush</div>
                 </div>
                 <div class="icon-item" data-filter="Flower">
-                    <div class="icon-placeholder"><img src="icons/deco10.png" alt="Flower"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco10.png" alt="Flower"></div>
                     <div class="icon-label">Flower</div>
                 </div>
                 <div class="icon-item" data-filter="Water">
-                    <div class="icon-placeholder"><img src="icons/deco13.png" alt="Water"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco13.png" alt="Water"></div>
                     <div class="icon-label">Water</div>
                 </div>
                 <div class="icon-item" data-filter="Dirt">
-                    <div class="icon-placeholder"><img src="icons/deco6.png" alt="Dirt"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco6.png" alt="Dirt"></div>
                     <div class="icon-label">Dirt</div>
                 </div>
                 <div class="icon-item" data-filter="Sign">
-                    <div class="icon-placeholder"><img src="icons/deco8.png" alt="Sign"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco8.png" alt="Sign"></div>
                     <div class="icon-label">Sign</div>
                 </div>
                 <div class="icon-item" data-filter="Stone">
-                    <div class="icon-placeholder"><img src="icons/deco7.png" alt="Stone"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco7.png" alt="Stone"></div>
                     <div class="icon-label">Stone</div>
                 </div>
                 <div class="icon-item" data-filter="Building">
-                    <div class="icon-placeholder"><img src="icons/deco16.png" alt="Building"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco16.png" alt="Building"></div>
                     <div class="icon-label">Building</div>
                 </div>
                 <div class="icon-item" data-filter="Doorway">
-                    <div class="icon-placeholder"><img src="icons/deco15.png" alt="Doorway"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco15.png" alt="Doorway"></div>
                     <div class="icon-label">Doorway</div>
                 </div>
                 <div class="icon-item" data-filter="Path">
-                    <div class="icon-placeholder"><img src="icons/deco11.png" alt="Path"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco11.png" alt="Path"></div>
                     <div class="icon-label">Path</div>
                 </div>
                 <div class="icon-item" data-filter="Boundary">
-                    <div class="icon-placeholder"><img src="icons/deco14.png" alt="Boundary"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco14.png" alt="Boundary"></div>
                     <div class="icon-label">Boundary</div>
                 </div>
                 <div class="icon-item" data-filter="Fence">
@@ -564,31 +535,30 @@
                     <div class="icon-label">Hedge</div>
                 </div>
                 <div class="icon-item" data-filter="Boulder">
-                    <div class="icon-placeholder"><img src="icons/deco12.png" alt="Boulder"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco12.png" alt="Boulder"></div>
                     <div class="icon-label">Boulder</div>
                 </div>
                 <div class="icon-item" data-filter="Rail">
-                    <div class="icon-placeholder"><img src="icons/deco20.png" alt="Rail"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco20.png" alt="Rail"></div>
                     <div class="icon-label">Rail</div>
                 </div>
                 <div class="icon-item" data-filter="Mushroom">
-                    <div class="icon-placeholder"><img src="icons/deco9.png" alt="Mushroom"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco9.png" alt="Mushroom"></div>
                     <div class="icon-label">Mushroom</div>
                 </div>
                 <div class="icon-item" data-filter="Void">
-                    <div class="icon-placeholder"><img src="icons/deco21.png" alt="Void"></div>
+                    <div class="icon-placeholder"><img src="icons/Deco21.png" alt="Void"></div>
                     <div class="icon-label">Void</div>
                 </div>
             </div>
         </div>
 
-        <!-- Advanced section -->
         <div class="advanced-section">
             <div class="advanced-title">Advanced</div>
             <div class="advanced-subtitle">Number of Trees</div>
             <div class="slider-row">
                 <div class="tree-graphic">
-                    <div class="tree-icon"><img src="icons/deco1.png" alt="Tree"></div>
+                    <div class="tree-icon"><img src="icons/Deco1.png" alt="Tree"></div>
                 </div>
                 <div class="slider-container">
                     <div class="slider-track">
@@ -611,36 +581,35 @@
             </div>
         </div>
 
-        <!-- Reset button -->
         <button class="reset-button" id="resetBtn">Reset</button>
 
-        <!-- Gallery navigation -->
         <div class="gallery-nav">
             <button class="nav-arrow" id="prevBtn"><img src="icons/copyofdeco33.png" alt="Previous"></button>
             <button class="nav-arrow" id="nextBtn"><img src="icons/copyofdeco33edited.png" alt="Next"></button>
         </div>
 
-        <!-- Gallery grid -->
         <div class="gallery-grid" id="mapGallery">
-            <!-- Maps loaded here -->
         </div>
 
-        <!-- Modal for location screenshot -->
         <div class="modal-overlay" id="modalOverlay">
             <div class="modal-content">
                 <img id="modalImage" src="" alt="Location">
             </div>
         </div>
 
-        <!-- Bottom section -->
         <div class="bottom-section">
             <div class="character-display">
-                <div class="character-sprite"></div>
+                <div class="character-sprite"><img src="icons/deco25.gif" alt="Character"></div>
             </div>
-            <div class="site-title">KDAssist</div>
+            <div class="highfive-image">
+                <img src="icons/deco36.png" alt="High Five">
+            </div>
+            <div class="logo-image">
+                <img src="icons/kdassist.gif" alt="KDAssist">
+            </div>
             <div class="credits">
-                Site made by Rustum Special thanks to Maddy.<br>
-                This site is not affiliated, maintained, endorsed or sponsored by Toonulab. All assets © 2025 Toonulab
+                Site made by Rustum. Special thanks to Maddy.<br>
+                This site is not affiliated, maintained, endorsed or sponsored by Toonslab, All assets © 2025 Toonslab
             </div>
         </div>
     </div>
@@ -649,7 +618,7 @@
         let allMaps = [];
         let filteredMaps = [];
         let currentPage = 0;
-        const mapsPerPage = 18; // 3 rows × 6 columns
+        const mapsPerPage = 18;
         
         const filters = {
             region: null,
@@ -736,7 +705,6 @@
 
         function extractFilename(wixUrl) {
             if (!wixUrl) return '';
-            // Extract filename after the last / and before any #
             const parts = wixUrl.split('/');
             const lastPart = parts[parts.length - 1];
             const filename = lastPart.split('#')[0];
@@ -775,7 +743,9 @@
                 'Overworld': i % 3 === 0 ? 'Overworld' : '',
                 'Cavern': i % 3 === 1 ? 'Cavern' : '',
                 'Big City': i % 3 === 2 ? 'Big City' : '',
-                'NumberofTrees': Math.floor(Math.random() * 8) + 1
+                'NumberofTrees': Math.floor(Math.random() * 8) + 1,
+                mapImage: `maps/map${i+1}.jpg`,
+                locationImage: `locations/location${i+1}.jpg`
             }));
             filteredMaps = [...allMaps];
             updateDisplay();
