@@ -213,8 +213,9 @@
             background: #8B7355;
             outline: none;
             border-radius: 3px;
-            position: relative;
+            position: absolute;
             top: 17px;
+            pointer-events: none;
         }
 
         .slider::-webkit-slider-thumb {
@@ -224,6 +225,7 @@
             background: #DAA520;
             cursor: pointer;
             border-radius: 50%;
+            pointer-events: all;
         }
 
         .slider::-moz-range-thumb {
@@ -233,6 +235,16 @@
             cursor: pointer;
             border-radius: 50%;
             border: none;
+            pointer-events: all;
+        }
+
+        .slider-fill {
+            position: absolute;
+            height: 6px;
+            background: #DAA520;
+            border-radius: 3px;
+            top: 17px;
+            pointer-events: none;
         }
 
         .slider-labels {
@@ -605,14 +617,16 @@
                 </div>
                 <div class="slider-container">
                     <div class="slider-track">
-                        <input type="range" min="1" max="8" value="1" class="slider" id="treeSlider">
+                        <div class="slider-fill" id="sliderFill"></div>
+                        <input type="range" min="1" max="8" value="1" class="slider" id="treeSliderMin">
+                        <input type="range" min="1" max="8" value="8" class="slider" id="treeSliderMax">
                     </div>
                     <div class="slider-labels">
                         <span>1</span>
                         <span>2</span>
                         <span>3</span>
                         <span>4</span>
-                        <span id="sliderValue">5</span>
+                        <span>5</span>
                         <span>6</span>
                         <span>7</span>
                         <span>8</span>
@@ -664,7 +678,8 @@
             region: null,
             entities: [],
             additions: [],
-            treeCount: 1
+            treeCountMin: 1,
+            treeCountMax: 8
         };
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -693,11 +708,30 @@
             document.getElementById('additionFilters').addEventListener('click', handleMultiSelect);
             document.getElementById('fullAdditionFilters').addEventListener('click', handleMultiSelect);
             
-            const slider = document.getElementById('treeSlider');
-            slider.addEventListener('input', function() {
-                filters.treeCount = parseInt(this.value);
+            const sliderMin = document.getElementById('treeSliderMin');
+            const sliderMax = document.getElementById('treeSliderMax');
+            
+            sliderMin.addEventListener('input', function() {
+                filters.treeCountMin = parseInt(this.value);
+                if (filters.treeCountMin > filters.treeCountMax) {
+                    filters.treeCountMin = filters.treeCountMax;
+                    this.value = filters.treeCountMax;
+                }
+                updateSliderFill();
                 applyFilters();
             });
+            
+            sliderMax.addEventListener('input', function() {
+                filters.treeCountMax = parseInt(this.value);
+                if (filters.treeCountMax < filters.treeCountMin) {
+                    filters.treeCountMax = filters.treeCountMin;
+                    this.value = filters.treeCountMin;
+                }
+                updateSliderFill();
+                applyFilters();
+            });
+            
+            updateSliderFill();
 
             document.getElementById('resetBtn').addEventListener('click', resetFilters);
             document.getElementById('prevBtn').addEventListener('click', () => changePage(-1));
@@ -837,10 +871,8 @@
                 }
                 
                 // Tree count filter
-                if (filters.treeCount > 1) {
-                    const treeCount = parseInt(map.NumberofTrees) || 0;
-                    if (treeCount < filters.treeCount) return false;
-                }
+                const treeCount = parseInt(map.NumberofTrees) || 0;
+                if (treeCount < filters.treeCountMin || treeCount > filters.treeCountMax) return false;
                 
                 return true;
             });
@@ -857,18 +889,31 @@
             filters.region = null;
             filters.entities = [];
             filters.additions = [];
-            filters.treeCount = 1;
-
+            filters.treeCountMin = 1;
+            filters.treeCountMax = 8;
             document.querySelectorAll('.icon-item').forEach(item => {
-                
-	item.classList.remove('selected');
+                item.classList.remove('selected');
             });
-
-            document.getElementById('treeSlider').value = 1;
+            document.getElementById('treeSliderMin').value = 1;
+            document.getElementById('treeSliderMax').value = 8;
+            updateSliderFill();
             filteredMaps = [...allMaps];
             currentPage = 0;
             updateDisplay();
             updateDebugInfo();
+        }
+
+        function updateSliderFill() {
+            const fill = document.getElementById('sliderFill');
+            const min = filters.treeCountMin;
+            const max = filters.treeCountMax;
+            const range = 8;
+            
+            const leftPercent = ((min - 1) / (range - 1)) * 100;
+            const rightPercent = ((max - 1) / (range - 1)) * 100;
+            
+            fill.style.left = leftPercent + '%';
+            fill.style.width = (rightPercent - leftPercent) + '%';
         }
 
         function updateDisplay() {
