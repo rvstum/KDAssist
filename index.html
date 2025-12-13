@@ -444,10 +444,22 @@
             font-size: 12px;
             line-height: 1.8;
         }
+
+        .debug-info {
+            background: rgba(139, 115, 85, 0.2);
+            border: 1px solid #8B7355;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 20px;
+            color: #999;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="debug-info" id="debugInfo"></div>
+        
         <div class="top-section">
             <div>
                 <div class="section-title">Region</div>
@@ -745,12 +757,22 @@
             return filename || '';
         }
 
+        function hasValue(value) {
+            // Check if a CSV cell value indicates presence of that feature
+            if (!value) return false;
+            const trimmed = value.trim();
+            // Empty, whitespace only, or empty brackets means not present
+            if (trimmed === '' || trimmed === '[]') return false;
+            return true;
+        }
+
         function loadCSV() {
             fetch('maps.csv')
                 .then(response => response.text())
                 .then(csvText => {
                     Papa.parse(csvText, {
                         header: true,
+                        skipEmptyLines: true,
                         complete: function(results) {
                             allMaps = results.data.filter(row => row['Main Project Image']).map(row => {
                                 return {
@@ -759,62 +781,68 @@
                                     locationImage: 'locations/' + extractFilename(row['Image'])
                                 };
                             });
+                            
+                            // Debug: Count Snow maps
+                            const snowCount = allMaps.filter(m => hasValue(m['Snow'])).length;
+                            console.log('Total maps loaded:', allMaps.length);
+                            console.log('Maps with Snow:', snowCount);
+                            
+                            // Show first few Snow entries for debugging
+                            const snowMaps = allMaps.filter(m => hasValue(m['Snow'])).slice(0, 5);
+                            console.log('Sample Snow maps:', snowMaps.map(m => ({
+                                Snow: m.Snow,
+                                mapImage: m.mapImage
+                            })));
+                            
                             filteredMaps = [...allMaps];
                             updateDisplay();
+                            updateDebugInfo();
                         }
                     });
                 })
                 .catch(error => {
                     console.error('Error loading CSV:', error);
-                    createDemoData();
+                    document.getElementById('debugInfo').textContent = 'Error loading CSV: ' + error;
                 });
         }
 
-        function createDemoData() {
-            allMaps = Array.from({length: 50}, (_, i) => ({
-                'Main Project Image': `map${i+1}.jpg`,
-                'Image': `location${i+1}.jpg`,
-                'Overworld': i % 3 === 0 ? 'Overworld' : '',
-                'Cavern': i % 3 === 1 ? 'Cavern' : '',
-                'Big City': i % 3 === 2 ? 'Big City' : '',
-                'NumberofTrees': Math.floor(Math.random() * 8) + 1,
-                mapImage: `maps/map${i+1}.jpg`,
-                locationImage: `locations/location${i+1}.jpg`
-            }));
-            filteredMaps = [...allMaps];
-            updateDisplay();
+        function updateDebugInfo() {
+            const debugDiv = document.getElementById('debugInfo');
+            const snowCount = allMaps.filter(m => hasValue(m['Snow'])).length;
+            const overworldCount = allMaps.filter(m => hasValue(m['Overworld'])).length;
+            const cavernCount = allMaps.filter(m => hasValue(m['Cavern'])).length;
+            const bigCityCount = allMaps.filter(m => hasValue(m['Big City'])).length;
+            
+            debugDiv.innerHTML = `
+                Total Maps: ${allMaps.length} | 
+                Overworld: ${overworldCount} | 
+                Snow: ${snowCount} | 
+                Cavern: ${cavernCount} | 
+                Big City: ${bigCityCount} | 
+                Filtered: ${filteredMaps.length}
+            `;
         }
 
         function applyFilters() {
             filteredMaps = allMaps.filter(map => {
                 // Region filter
                 if (filters.region) {
-                    const regionValue = map[filters.region];
-                    // Only reject if explicitly empty - accept anything with content
-                    if (!regionValue || regionValue === '[]' || regionValue === '') return false;
+                    if (!hasValue(map[filters.region])) return false;
                 }
                 
                 // Entity filters - ALL selected entities must be present
                 if (filters.entities.length > 0) {
-                    const hasAllEntities = filters.entities.every(entity => {
-                        const value = map[entity];
-                        // Only reject if explicitly empty
-                        return value && value !== '[]' && value !== '';
-                    });
+                    const hasAllEntities = filters.entities.every(entity => hasValue(map[entity]));
                     if (!hasAllEntities) return false;
                 }
                 
                 // Addition filters - ALL selected additions must be present
                 if (filters.additions.length > 0) {
-                    const hasAllAdditions = filters.additions.every(addition => {
-                        const value = map[addition];
-                        // Only reject if explicitly empty
-                        return value && value !== '[]' && value !== '';
-                    });
+                    const hasAllAdditions = filters.additions.every(addition => hasValue(map[addition]));
                     if (!hasAllAdditions) return false;
                 }
                 
-                // Tree count filter - this might be the issue!
+                // Tree count filter
                 if (filters.treeCount > 1) {
                     const treeCount = parseInt(map.NumberofTrees) || 0;
                     if (treeCount < filters.treeCount) return false;
@@ -823,9 +851,12 @@
                 return true;
             });
 
+            console.log('Filters applied:', filters);
             console.log('Total maps after filter:', filteredMaps.length);
+            
             currentPage = 0;
             updateDisplay();
+            updateDebugInfo();
         }
 
         function resetFilters() {
@@ -835,13 +866,15 @@
             filters.treeCount = 1;
 
             document.querySelectorAll('.icon-item').forEach(item => {
-                item.classList.remove('selected');
+                
+	item.classList.remove('selected');
             });
 
             document.getElementById('treeSlider').value = 1;
             filteredMaps = [...allMaps];
             currentPage = 0;
             updateDisplay();
+            updateDebugInfo();
         }
 
         function updateDisplay() {
