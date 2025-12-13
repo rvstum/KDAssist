@@ -30,7 +30,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.92);
             z-index: -1;
         }
 
@@ -297,7 +297,7 @@
             position: absolute;
             width: 80px;
             height: 80px;
-            bottom: 65%;
+            bottom: 50%;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1;
@@ -811,10 +811,22 @@
 
         function applyFilters() {
             filteredMaps = allMaps.filter(map => {
+                // Region filter
                 if (filters.region && !map[filters.region]) return false;
-                if (filters.entities.length > 0 && !filters.entities.some(e => map[e])) return false;
-                if (filters.additions.length > 0 && !filters.additions.some(a => map[a])) return false;
                 
+                // Entity filters - ALL selected entities must be present
+                if (filters.entities.length > 0) {
+                    const hasAllEntities = filters.entities.every(entity => map[entity]);
+                    if (!hasAllEntities) return false;
+                }
+                
+                // Addition filters - ALL selected additions must be present
+                if (filters.additions.length > 0) {
+                    const hasAllAdditions = filters.additions.every(addition => map[addition]);
+                    if (!hasAllAdditions) return false;
+                }
+                
+                // Tree count filter
                 const treeCount = parseInt(map.NumberofTrees) || 0;
                 if (treeCount < filters.treeCount) return false;
                 
