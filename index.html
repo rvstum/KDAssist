@@ -270,17 +270,24 @@
     width: 100%;
     top: 0;
     left: 0;
-    display: flex;
-    justify-content: space-between;
     color: #999;
     font-size: 12px;
+    pointer-events: none;
 }
 
 .slider-labels span {
-    position: relative;
-    display: inline-block;
-    text-align: center;
+    position: absolute;
+    transform: translateX(-50%);
 }
+
+.slider-labels span:nth-child(1) { left: 0%; transform: translateX(0); }
+.slider-labels span:nth-child(2) { left: 14.286%; }
+.slider-labels span:nth-child(3) { left: 28.571%; }
+.slider-labels span:nth-child(4) { left: 42.857%; }
+.slider-labels span:nth-child(5) { left: 57.143%; }
+.slider-labels span:nth-child(6) { left: 71.429%; }
+.slider-labels span:nth-child(7) { left: 85.714%; }
+.slider-labels span:nth-child(8) { left: 100%; transform: translateX(-100%); }
 
 .slider-tick {
     position: absolute;
@@ -288,9 +295,17 @@
     height: 8px;
     background: #8B7355;
     top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
 }
+
+.slider-labels span:nth-child(1) .slider-tick { left: 0; }
+.slider-labels span:nth-child(2) .slider-tick { left: 50%; transform: translateX(-50%); }
+.slider-labels span:nth-child(3) .slider-tick { left: 50%; transform: translateX(-50%); }
+.slider-labels span:nth-child(4) .slider-tick { left: 50%; transform: translateX(-50%); }
+.slider-labels span:nth-child(5) .slider-tick { left: 50%; transform: translateX(-50%); }
+.slider-labels span:nth-child(6) .slider-tick { left: 50%; transform: translateX(-50%); }
+.slider-labels span:nth-child(7) .slider-tick { left: 50%; transform: translateX(-50%); }
+.slider-labels span:nth-child(8) .slider-tick { left: 100%; }
 
         .preview-box {
             width: 180px;
