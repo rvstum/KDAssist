@@ -790,16 +790,18 @@
                 // Region filter
                 if (filters.region) {
                     const regionValue = map[filters.region];
-                    // Check if value is not empty and contains the region name
-                    if (!regionValue || regionValue.trim() === '' || regionValue === '[]') return false;
+                    console.log('Region check:', filters.region, 'Value:', regionValue);
+                    // Check if value exists and is not empty array
+                    if (!regionValue || regionValue === '[]' || regionValue.trim() === '') return false;
                 }
                 
                 // Entity filters - ALL selected entities must be present
                 if (filters.entities.length > 0) {
                     const hasAllEntities = filters.entities.every(entity => {
                         const value = map[entity];
-                        // Value must exist, not be empty, and not be empty array
-                        return value && value.trim() !== '' && value !== '[]';
+                        console.log('Entity check:', entity, 'Value:', value);
+                        // Check if value exists and is not empty array
+                        return value && value !== '[]' && value.trim() !== '';
                     });
                     if (!hasAllEntities) return false;
                 }
@@ -808,8 +810,9 @@
                 if (filters.additions.length > 0) {
                     const hasAllAdditions = filters.additions.every(addition => {
                         const value = map[addition];
-                        // Value must exist, not be empty, and not be empty array
-                        return value && value.trim() !== '' && value !== '[]';
+                        console.log('Addition check:', addition, 'Value:', value);
+                        // Check if value exists and is not empty array
+                        return value && value !== '[]' && value.trim() !== '';
                     });
                     if (!hasAllAdditions) return false;
                 }
@@ -821,6 +824,7 @@
                 return true;
             });
 
+            console.log('Total maps after filter:', filteredMaps.length);
             currentPage = 0;
             updateDisplay();
         }
