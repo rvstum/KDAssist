@@ -918,11 +918,13 @@
             if (!hasAllAdditions) return false;
         }
         
-        // Tree count filter - only apply if not covering full range
-if (filters.treeCountMin > 1 || filters.treeCountMax < 8) {
-    const treeCount = parseInt(map.NumberofTrees) || 0;
-    if (treeCount < filters.treeCountMin || treeCount > filters.treeCountMax) return false;
-}
+// Tree count filter - only apply if not covering full range
+        if (filters.treeCountMin > 1 || filters.treeCountMax < 8) {
+            const treeCount = parseInt(map.NumberofTrees) || 0;
+            // Skip maps with no tree count data when filtering
+            if (treeCount === 0) return false;
+            if (treeCount < filters.treeCountMin || treeCount > filters.treeCountMax) return false;
+        }
         
         return true;
     });
