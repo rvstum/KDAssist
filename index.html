@@ -116,18 +116,25 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
 }
-        .addition-icons {
+        .filter-category-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+.filter-category-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
+    margin-top: 15px;
 }
 
         .advanced-section {
-            margin-bottom: 20px;
-            padding: 20px;
-            background: rgba(139, 115, 85, 0.2);
-            border-radius: 8px;
-        }
+    margin-bottom: 20px;
+    padding: 20px;
+    background: transparent;
+    border-radius: 8px;
+}
 
         .advanced-title {
             color: #DAA520;
@@ -137,10 +144,10 @@
         }
 
         .advanced-subtitle {
-            color: #999;
-            font-size: 12px;
-            margin-bottom: 20px;
-        }
+    color: #ffffff;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
 
         .slider-row {
             display: flex;
@@ -227,26 +234,26 @@
     width: 20px;
     height: 20px;
     background: #FFD700;
-    border: 4px solid #DAA520;
+    border: 4px solid #FFD700;
     cursor: pointer;
     border-radius: 50%;
     pointer-events: all;
     position: relative;
     z-index: 3;
-    box-shadow: inset 0 0 0 2px #FFD700;
+    box-shadow: inset 0 0 0 6px #DAA520;
 }
 
         .slider::-moz-range-thumb {
     width: 20px;
     height: 20px;
     background: #FFD700;
-    border: 4px solid #DAA520;
+    border: 4px solid #FFD700;
     cursor: pointer;
     border-radius: 50%;
     pointer-events: all;
     position: relative;
     z-index: 3;
-    box-shadow: inset 0 0 0 2px #FFD700;
+    box-shadow: inset 0 0 0 6px #DAA520;
 }
 
         .slider-track-bg {
@@ -351,7 +358,7 @@
     padding: 15px;
     background: #000;
     border: 2px solid #FFD700;
-    color: #d4af37;
+    color: #FFD700;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
@@ -519,14 +526,129 @@
     <div>
         <div class="section-title">Region</div>
         <div class="section-subtitle">Select only one (Deselect all to show all regions)</div>
-        <div class="region-icons" id="regionFilters">
-            <div class="icon-item" data-filter="Snow">
-                <div class="icon-placeholder"><img src="icons/deco27.png" alt="Snow"></div>
-                <div class="icon-label">Snow</div>
+        <div style="display: flex; flex-direction: column; gap: 20px; align-items: flex-start;">
+            <!-- Overworld -->
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                <div style="color: #DAA520; font-size: 14px; font-weight: bold; margin-bottom: 10px; text-decoration: underline;">Overworld</div>
+                <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px;">
+                    <div class="icon-item" data-filter="Overworld">
+                        <div class="icon-placeholder"><img src="icons/deco28.png" alt="Overworld"></div>
+                        <div class="icon-label">Overworld</div>
+                    </div>
+                    <div class="icon-item" data-filter="Tree">
+                        <div class="icon-placeholder"><img src="icons/Deco1.png" alt="Tree"></div>
+                        <div class="icon-label">Tree</div>
+                    </div>
+                    <div class="icon-item" data-filter="Red Tree">
+                        <div class="icon-placeholder"><img src="icons/Deco2.png" alt="Red Tree"></div>
+                        <div class="icon-label">Red Tree</div>
+                    </div>
+                    <div class="icon-item" data-filter="Trunk">
+                        <div class="icon-placeholder"><img src="icons/Deco3.png" alt="Trunk"></div>
+                        <div class="icon-label">Trunk</div>
+                    </div>
+                    <div class="icon-item" data-filter="Grass">
+                        <div class="icon-placeholder"><img src="icons/Deco4.png" alt="Grass"></div>
+                        <div class="icon-label">Grass</div>
+                    </div>
+                    <div class="icon-item" data-filter="Bush">
+                        <div class="icon-placeholder"><img src="icons/Deco5.png" alt="Bush"></div>
+                        <div class="icon-label">Bush</div>
+                    </div>
+                    <div class="icon-item" data-filter="Flower">
+                        <div class="icon-placeholder"><img src="icons/Deco10.png" alt="Flower"></div>
+                        <div class="icon-label">Flower</div>
+                    </div>
+                    <div class="icon-item" data-filter="Water">
+                        <div class="icon-placeholder"><img src="icons/Deco13.png" alt="Water"></div>
+                        <div class="icon-label">Water</div>
+                    </div>
+                    <div class="icon-item" data-filter="Dirt">
+                        <div class="icon-placeholder"><img src="icons/Deco6.png" alt="Dirt"></div>
+                        <div class="icon-label">Dirt</div>
+                    </div>
+                    <div class="icon-item" data-filter="Sign">
+                        <div class="icon-placeholder"><img src="icons/Deco8.png" alt="Sign"></div>
+                        <div class="icon-label">Sign</div>
+                    </div>
+                    <div class="icon-item" data-filter="Stone">
+                        <div class="icon-placeholder"><img src="icons/Deco7.png" alt="Stone"></div>
+                        <div class="icon-label">Stone</div>
+                    </div>
+                    <div class="icon-item" data-filter="Building">
+                        <div class="icon-placeholder"><img src="icons/Deco16.png" alt="Building"></div>
+                        <div class="icon-label">Building</div>
+                    </div>
+                    <div class="icon-item" data-filter="Doorway">
+                        <div class="icon-placeholder"><img src="icons/Deco15.png" alt="Doorway"></div>
+                        <div class="icon-label">Doorway</div>
+                    </div>
+                    <div class="icon-item" data-filter="Path">
+                        <div class="icon-placeholder"><img src="icons/Deco11.png" alt="Path"></div>
+                        <div class="icon-label">Path</div>
+                    </div>
+                    <div class="icon-item" data-filter="Boundary">
+                        <div class="icon-placeholder"><img src="icons/Deco14.png" alt="Boundary"></div>
+                        <div class="icon-label">Boundary</div>
+                    </div>
+                    <div class="icon-item" data-filter="Fence">
+                        <div class="icon-placeholder"><img src="icons/deco32.png" alt="Fence"></div>
+                        <div class="icon-label">Fence</div>
+                    </div>
+                    <div class="icon-item" data-filter="Hedge">
+                        <div class="icon-placeholder"><img src="icons/deco30.png" alt="Hedge"></div>
+                        <div class="icon-label">Hedge</div>
+                    </div>
+                </div>
             </div>
-            <div class="icon-item" data-filter="Big City">
-                <div class="icon-placeholder"><img src="icons/deco29.png" alt="Big City"></div>
-                <div class="icon-label">Big City</div>
+
+            <!-- Snow -->
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                <div style="color: #DAA520; font-size: 14px; font-weight: bold; margin-bottom: 10px; text-decoration: underline;">Snow</div>
+                <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px;">
+                    <div class="icon-item" data-filter="Snow">
+                        <div class="icon-placeholder"><img src="icons/deco27.png" alt="Snow"></div>
+                        <div class="icon-label">Snow</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cavern -->
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                <div style="color: #DAA520; font-size: 14px; font-weight: bold; margin-bottom: 10px; text-decoration: underline;">Cavern</div>
+                <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px;">
+                    <div class="icon-item" data-filter="Cavern">
+                        <div class="icon-placeholder"><img src="icons/deco26.png" alt="Cavern"></div>
+                        <div class="icon-label">Cavern</div>
+                    </div>
+                    <div class="icon-item" data-filter="Boulder">
+                        <div class="icon-placeholder"><img src="icons/Deco12.png" alt="Boulder"></div>
+                        <div class="icon-label">Boulder</div>
+                    </div>
+                    <div class="icon-item" data-filter="Rail">
+                        <div class="icon-placeholder"><img src="icons/Deco20.png" alt="Rail"></div>
+                        <div class="icon-label">Rail</div>
+                    </div>
+                    <div class="icon-item" data-filter="Mushroom">
+                        <div class="icon-placeholder"><img src="icons/Deco9.png" alt="Mushroom"></div>
+                        <div class="icon-label">Mushroom</div>
+                    </div>
+                    <div class="icon-item" data-filter="Void">
+                        <div class="icon-placeholder"><img src="icons/Deco21.png" alt="Void"></div>
+                        <div class="icon-label">Void</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Big City -->
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                <div style="color: #DAA520; font-size: 14px; font-weight: bold; margin-bottom: 10px; text-decoration: underline;">Big City</div>
+                <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px;">
+                    <div class="icon-item" data-filter="Big City">
+                        <div class="icon-placeholder"><img src="icons/deco29.png" alt="Big City"></div>
+                        <div class="icon-label">Big City</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -759,11 +881,12 @@
         }
 
         function setupEventListeners() {
-            document.getElementById('regionFilters').addEventListener('click', handleMultiSelect);
+            // Add click handlers to all filter containers
+document.querySelectorAll('.top-section [style*="grid"]').forEach(container => {
+    container.addEventListener('click', handleMultiSelect);
+});
 document.getElementById('entityFilters').addEventListener('click', handleMultiSelect);
 document.getElementById('additionFilters').addEventListener('click', handleMultiSelect);
-document.getElementById('overworldFilters').addEventListener('click', handleMultiSelect);
-document.getElementById('cavernFilters').addEventListener('click', handleMultiSelect);
             
             const sliderMin = document.getElementById('treeSliderMin');
             const sliderMax = document.getElementById('treeSliderMax');
