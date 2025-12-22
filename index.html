@@ -115,6 +115,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0px;
+    justify-items: start;
 }
         .filter-category-section {
     display: flex;
@@ -131,35 +132,42 @@
 
 .advanced-section {
     margin-bottom: 8px;
-    padding: 5px 20px;
+    padding: 5px 0px;
     background: transparent;
     border-radius: 8px;
+    display: inline-block;
+    vertical-align: top;
 }
 
-        .advanced-title {
+.advanced-title {
             color: #DAA520;
             font-size: 16px;
             font-weight: bold;
             margin-bottom: 8px;
+            text-decoration: underline;
+            text-align: center;
         }
 
-        .advanced-subtitle {
+.advanced-subtitle {
     color: #ffffff;
     font-size: 12px;
     margin-bottom: 20px;
+    text-align: center;
 }
 
-        .slider-row {
+.slider-row {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 10px;
         }
 
-        .tree-graphic {
+.tree-graphic {
             width: 80px;
             text-align: center;
             position: relative;
             height: 70px;
+            margin: 0 auto;
         }
 
         .tree-icon {
@@ -204,10 +212,10 @@
             object-fit: contain;
         }
 
-        .slider-container {
-    flex: 1;
+.slider-container {
+    width: 100%;
     position: relative;
-    padding: 0 15%;
+    padding: 0 10%;
 }
 
         .slider-track {
@@ -354,8 +362,8 @@
         }
 
 .reset-button {
-    width: 100%;
-    padding: 12px;
+    width: auto;
+    padding: 12px 40px;
     background: #000;
     border: 2px solid #FFD700;
     color: #FFD700;
@@ -365,6 +373,7 @@
     border-radius: 8px;
     margin-bottom: 20px;
     transition: all 0.2s;
+    display: inline-block;
 }
 
         .reset-button:hover {
@@ -379,9 +388,9 @@
             margin-bottom: 20px;
         }
 
-        .nav-arrow {
-            width: 50px;
-            height: 50px;
+.nav-arrow {
+            width: 35px;
+            height: 35px;
             background: transparent;
             border: none;
             cursor: pointer;
@@ -408,11 +417,12 @@
             cursor: not-allowed;
         }
 
-        .gallery-grid {
+.gallery-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 15px;
             flex: 1;
+            min-height: 600px;
         }
 
 .map-thumbnail {
@@ -435,13 +445,13 @@
             object-fit: contain;
         }
 
-        .modal-overlay {
+.modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.3);
             display: none;
             justify-content: center;
             align-items: center;
@@ -462,8 +472,8 @@
         }
 
 .modal-content img {
-            max-width: 100%;
-            max-height: 90vh;
+            max-width: 60%;
+            max-height: 60vh;
             border: none;
             border-radius: 0px;
             display: block;
@@ -643,6 +653,17 @@
         </div>
     </div>
 </div>
+
+			<div class="advanced-section">
+            <div class="advanced-title">Advanced</div>
+            <div class="advanced-subtitle">Number of Trees</div>
+            <div class="slider-row">
+                <div class="tree-graphic">
+                    <div class="tree-behind-left"><img src="icons/Deco1.png" alt="Tree"></div>
+                    <div class="tree-icon"><img src="icons/Deco1.png" alt="Tree"></div>
+                    <div class="tree-behind-right"><img src="icons/Deco1.png" alt="Tree"></div>
+                </div>
+		
 <div style="margin-bottom: 0px;">
     <div class="section-title">Cavern</div>
     <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 0px;">
@@ -665,15 +686,6 @@
     </div>
 </div>
 
-        <div class="advanced-section">
-            <div class="advanced-title">Advanced</div>
-            <div class="advanced-subtitle">Number of Trees</div>
-            <div class="slider-row">
-                <div class="tree-graphic">
-                    <div class="tree-behind-left"><img src="icons/Deco1.png" alt="Tree"></div>
-                    <div class="tree-icon"><img src="icons/Deco1.png" alt="Tree"></div>
-                    <div class="tree-behind-right"><img src="icons/Deco1.png" alt="Tree"></div>
-                </div>
                 <div class="slider-container">
                     <div class="slider-track">
                         <div class="slider-track-bg"></div>
