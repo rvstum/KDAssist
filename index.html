@@ -73,21 +73,22 @@
 .icon-item {
             text-align: center;
             cursor: pointer;
-            padding: 0px;
-            border: 2px solid transparent;
-            border-radius: 8px;
+            padding: 0px 5px;
+            border: none;
+            border-radius: 0px;
             transition: all 0.2s;
-            margin: -5px;
         }
 
-        .icon-item:hover {
-            border-color: #DAA520;
-            background: rgba(218, 165, 32, 0.1);
+        .icon-item:hover .icon-placeholder,
+        .icon-item:hover .icon-label {
+            transform: scale(1.1);
         }
 
-        .icon-item.selected {
-            border-color: #DAA520;
-            background: rgba(218, 165, 32, 0.2);
+        .icon-item.selected .icon-label {
+            background: #8B6914;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
         }
 
 .icon-placeholder {
@@ -95,6 +96,7 @@
             height: 50px;
             margin: 0 auto 0px;
             border-radius: 4px;
+            transition: all 0.2s;
         }
 
         .icon-placeholder img {
@@ -106,6 +108,7 @@
     color: #ffffff;
     font-size: 11px;
     margin-top: 2px;
+    transition: all 0.2s;
 }
 
         .icon-label.highlight {
@@ -421,7 +424,7 @@
 .gallery-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 4px;
+            gap: 1px;
             flex: 1;
             min-height: 600px;
         }
