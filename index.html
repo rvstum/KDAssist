@@ -73,7 +73,7 @@
 .icon-item {
             text-align: center;
             cursor: pointer;
-            padding: 0px 5px;
+            padding: 0px 3px;
             border: none;
             border-radius: 0px;
             transition: all 0.2s;
@@ -84,11 +84,14 @@
             transform: scale(1.1);
         }
 
-        .icon-item.selected .icon-label {
-            background: #8B6914;
+        .icon-item .icon-label {
             padding: 2px 8px;
             border-radius: 4px;
             display: inline-block;
+        }
+
+        .icon-item.selected .icon-label {
+            background: #8B6914;
         }
 
 .icon-placeholder {
@@ -96,7 +99,9 @@
             height: 50px;
             margin: 0 auto 0px;
             border-radius: 4px;
-            transition: all 0.2s;
+            transition: transform 0.2s ease;
+            will-change: transform;
+            backface-visibility: hidden;
         }
 
         .icon-placeholder img {
@@ -108,7 +113,10 @@
     color: #ffffff;
     font-size: 11px;
     margin-top: 2px;
-    transition: all 0.2s;
+    transition: transform 0.2s ease;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: subpixel-antialiased;
 }
 
         .icon-label.highlight {
@@ -424,7 +432,8 @@
 .gallery-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 1px;
+            column-gap: 4px;
+            row-gap: 1px;
             flex: 1;
             min-height: 600px;
         }
