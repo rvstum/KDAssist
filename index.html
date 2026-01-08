@@ -6,8 +6,9 @@
     <title>KDAssist</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <style>
-        :root {
-            --preview-scale: 2;
+:root {
+            --preview-scale: 1;
+            --table-size: calc(150px * var(--preview-scale));
         }
 
         * {
@@ -362,8 +363,8 @@
 
 .old-man-behind {
             position: absolute;
-            width: calc(80px * var(--preview-scale));
-            height: calc(80px * var(--preview-scale));
+            width: calc(var(--table-size) * 0.533);
+            height: calc(var(--table-size) * 0.533);
             bottom: 65%;
             left: 50%;
             transform: translateX(-50%);
