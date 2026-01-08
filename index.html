@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KDAssist</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    <style>
+<style>
+        :root {
+            --preview-scale: 2;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -342,9 +346,9 @@
             position: relative;
         }
 
-        .preview-content {
-            width: 150px;
-            height: 150px;
+.preview-content {
+            width: calc(150px * var(--preview-scale));
+            height: calc(150px * var(--preview-scale));
             border-radius: 4px;
             position: relative;
             z-index: 0;
@@ -358,8 +362,8 @@
 
 .old-man-behind {
             position: absolute;
-            width: 80px;
-            height: 80px;
+            width: calc(80px * var(--preview-scale));
+            height: calc(80px * var(--preview-scale));
             bottom: 65%;
             left: 50%;
             transform: translateX(-50%);
