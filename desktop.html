@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="manifest" href="/manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Graal Classic Treasure Maps</title>
@@ -84,9 +85,11 @@
     transition: all 0.2s;
 }
 
-.icon-item:hover .icon-placeholder,
-.icon-item:hover .icon-label {
-    transform: scale(1.1);
+@media (hover: hover) {
+    .icon-item:hover .icon-placeholder,
+    .icon-item:hover .icon-label {
+        transform: scale(1.1);
+    }
 }
 
 .icon-item .icon-label {
@@ -120,6 +123,11 @@
     transition: transform 0.2s ease;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-item.mobile-active .icon-placeholder,
+.icon-item.mobile-active .icon-label {
+    transform: scale(1.1);
 }
 
 .icon-label.highlight {
@@ -162,17 +170,6 @@
 }
 
 
-/* Reduce labels and ticks side padding by half (from 2% to 1%) */
-.advanced-section .slider-labels {
-    padding: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-}
-.advanced-section .slider-ticks {
-    padding: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-}
 
 .advanced-title {
             color: #ffc43d;
@@ -273,7 +270,7 @@
     position: absolute;
     top: 37px;
     pointer-events: none;
-    z-index: 2;
+    z-index: 10;
 }
 
         .slider::-webkit-slider-thumb {
@@ -303,7 +300,7 @@
     box-shadow: inset 0 0 0 6px #DAA520;
 }
 
-        .slider-track-bg {
+.slider-track-bg {
     position: absolute;
     width: 100%;
     height: 4px;
@@ -313,14 +310,14 @@
     z-index: 0;
 }
 
-        .slider-fill {
+.slider-fill {
     position: absolute;
     height: 4px;
     background: #fdf6ce;
     border-radius: 2px;
     top: 37px;
     pointer-events: none;
-    z-index: 1;
+    z-index: 5;
 }
 
         .slider-labels {
@@ -382,19 +379,6 @@
     box-shadow: none;
 }
 
-/* Stronger scoped overrides to ensure advanced slider labels/ticks align */
-.advanced-section .slider-labels {
-    left: 0.25% !important;
-    right: 0.25% !important;
-    padding: 0 !important;
-    width: auto !important;
-}
-.advanced-section .slider-ticks {
-    left: 0.25% !important;
-    right: 0.25% !important;
-    padding: 0 !important;
-    width: auto !important;
-} 
 
 .preview-box {
             width: 180px;
@@ -459,7 +443,30 @@
     display: inline-block;
 }
 
-        .reset-button:hover {
+.nav-right-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+
+.page-counter {
+    color: #ffedc5;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 2px;
+    white-space: nowrap;
+}
+
+@media (hover: hover) {
+    .reset-button:hover {
+        background: #211d0e;
+        border-color: #f4ecba;
+    }
+}
+
+.reset-button.mobile-active {
     background: #211d0e;
     border-color: #f4ecba;
 }
@@ -621,21 +628,503 @@
         .debug-info {
     display: none;
 		}	
+
+/* ==================== MOBILE SUPPORT ==================== */
+
+/* Tablet and Mobile - 768px and smaller */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+        padding-bottom: 0px;
+    }
+
+    /* Mobile animation speed (0.1s) */
+    .icon-item, .reset-button {
+        transition: all 0.1s;
+    }
+    .icon-placeholder, .icon-label {
+        transition: transform 0.1s ease;
+    }
+
+    /* Reorder sections for mobile */
+    #mainContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .top-section {
+        display: contents !important;
+    }
+
+    .section-region { order: 1; width: 100%; }
+    .section-overworld { order: 2; margin: 0 !important; margin-top: -15px !important; }
+    .section-cavern { order: 3; margin: 0 !important; margin-top: -15px !important; }
+    .section-entity { order: 4; width: 100%; margin-top: -15px !important; }
+    .section-entity > div { margin-top: 0 !important; }
+    .section-addition { order: 5; width: 100%; margin-top: -15px !important; }
+    .section-advanced { order: 6; margin-top: -35px !important; margin-bottom: 20px !important; }
+    .section-reset-wrapper { order: 7; }
+
+    /* Region section - 2x2 grid */
+    .region-icons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        justify-items: center;
+    }
+
+    /* Entity section - 4 columns in one row */
+    .entity-icons {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 15px;
+        justify-items: center;
+    }
+
+    /* Addition section - centered */
+    .addition-icons {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    /* Overworld filters - 4 columns grid */
+    div[style*="grid-template-columns: repeat(14"] {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 15px !important;
+        justify-items: center;
+    }
+
+    /* Cavern filters - 4 columns grid */
+    div[style*="grid-template-columns: repeat(4"] {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 15px !important;
+        justify-items: center;
+    }
+
+    /* Section titles styling */
+    .section-title {
+        font-size: 16px;
+        text-align: left;
+        color: #ffc43d;
+    }
+
+    .section-subtitle {
+        font-size: 10px;
+        text-align: left;
+    }
+
+    /* Icon items */
+    .icon-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .icon-placeholder {
+        width: 60px;
+        height: 60px;
+    }
+
+    .icon-label {
+        font-size: 11px;
+        text-align: center;
+        margin-top: 4px;
+    }
+
+/* Advanced section positioning - CENTERED */
+.section-advanced {
+    grid-template-columns: 1fr !important;
+    display: flex !important;
+    justify-content: center !important;
+    width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+}
+
+div[style*="grid-column: 7 / 9"] {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+}
+
+/* Center and make advanced section full width */
+.advanced-section {
+    width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+    padding: 20px 0 0 0 !important;
+    text-align: center;
+}
+
+/* Force override inline styles */
+div[style*="margin-bottom: 0px; padding: 5px 0px"] {
+    width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+}
+
+/* SLIDER FULL WIDTH - EXTEND TO EDGES */
+.advanced-section .slider-container {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 10px !important;
+    margin: -10px 0 0 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Make slider track match the label/tick width */
+.advanced-section .slider-track,
+.advanced-section .slider-track-bg,
+.advanced-section .slider-fill,
+.advanced-section .slider {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+/* Fix the slider fill to show properly */
+.advanced-section .slider-fill {
+    position: absolute !important;
+    height: 4px !important;
+    background: #fdf6ce !important;
+    border-radius: 2px !important;
+    top: 37px !important;
+    left: 0 !important;
+    z-index: 5 !important;
+    pointer-events: none !important;
+    display: block !important;
+    visibility: visible !important;
+}
+
+.advanced-section .slider-track-bg {
+    position: absolute !important;
+    height: 4px !important;
+    background: #bf9904 !important;
+    border-radius: 2px !important;
+    top: 37px !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 0 !important;
+}
+
+.advanced-section .slider {
+    z-index: 10 !important;
+}
+
+/* Allow JS to position labels/ticks correctly on mobile */
+.advanced-section .slider-labels,
+.advanced-section .slider-ticks {
+    display: block !important;
+    padding: 0 !important;
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+.advanced-title {
+    font-size: 16px;
+    text-align: center;
+}
+
+.advanced-subtitle {
+    font-size: 12px;
+    text-align: center;
+        margin-bottom: 2px !important;
+}
+
+    /* Show tree behind elements on small screens */
+    .tree-behind-left,
+    .tree-behind-right {
+        display: block !important;
+        width: 60px;
+        height: 60px;
+        top: 5px !important;
+    }
+
+    /* Adjust tree graphic size */
+    .tree-graphic {
+        width: 90px;
+        height: 85px;
+        margin: -5px auto 0 auto;
+    }
+
+    .tree-icon {
+        width: 80px;
+        height: 80px;
+        top: 15px;
+    }
+
+    .slider-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Hide preview box on mobile */
+    div[style*="position: absolute; right: 0; top: -160px"] {
+        display: none !important;
+    }
+
+    /* Reset button - FIXED AT BOTTOM OF SCREEN */
+    .section-reset-wrapper {
+        position: static !important;
+        height: auto !important;
+    }
+
+    .section-reset-wrapper > div:first-child {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    text-align: center;
+    margin: 0 !important;
+    z-index: 1000;
+    background: transparent !important;
+    padding: 12px 5px !important;
+    border: none !important;
+}
+
+    /* MAKE RESET BUTTON VERTICALLY BIGGER */
+.reset-button {
+    padding: 20px 20px !important;
+    width: 98% !important;
+    max-width: none !important;
+    font-size: 22px !important;
+    margin: 0 auto !important;
+    height: auto !important;
+    display: block !important;
+    font-weight: bold !important;
+}
+
+    /* Gallery - 3 columns, 5 rows max (15 images) */
+.gallery-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 4px;
+    margin-bottom: 0px;
+    width: 100%;
+}
+    
+    /* MOVE GALLERY CLOSER TO SMALL LINE ABOVE */
+.gallery-wrapper {
+    flex-direction: column;
+    gap: 0;
+    margin-top: -15px !important;
+        margin-bottom: 60px !important;
+    position: relative;
+    padding-bottom: 0px !important;
+}
+
+    .nav-right-wrapper {
+        display: contents;
+    }
+
+    .page-counter {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 10px;
+        z-index: 51;
+        font-size: 14px;
+    }
+
+    /* MAKE ARROWS BIGGER AND POSITION CLOSER TO GALLERY */
+.nav-arrow {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    top: 100%;
+    margin-top: -25px;
+    z-index: 50;
+}
+
+    #prevBtn {
+        left: 0;
+    }
+
+    #nextBtn {
+        right: 0;
+    }
+
+    /* Add padding to bottom of page for fixed reset button */
+body {
+    padding-bottom: 75px !important;
+}
+
+    /* Make modal image larger on mobile */
+    .modal-content img {
+        max-width: 95%;
+        max-height: 80vh;
+    }
+
+    /* Logo and credits */
+    .logo-image {
+        max-width: 300px;
+    }
+
+    /* REMOVE MASSIVE EMPTY SPACE AT BOTTOM */
+.credits {
+    font-size: 9px;
+    padding: 0 10px;
+    margin-bottom: 0px;
+    padding-bottom: 15px;
+}
+
+    /* Bottom section spacing for reset button */
+.bottom-section {
+    margin-bottom: 0px;
+}
+
+    /* Custom Mobile Adjustments */
+    .divider-line-short {
+        width: 70% !important;
+    }
+
+    .section-entity {
+        text-align: left !important;
+        padding-left: 0 !important;
+    }
+    .section-entity > div {
+        display: block !important;
+        text-align: left !important;
+        width: 100% !important;
+        margin-top: 0 !important;
+    }
+    .entity-icons {
+        padding-left: 0;
+    }
+
+    .section-addition .section-title,
+    .section-addition .section-subtitle {
+        text-align: center !important;
+    }
+
+    /* Close gap between slider and gallery lines */
+    .gallery-divider {
+        margin-top: -45px !important;
+    }
+}
+
+/* Extra small phones - 480px and smaller */
+@media (max-width: 480px) {
+    /* Gallery - still 3 columns */
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 3px;
+    }
+
+    /* Keep 2x2 for regions */
+    .region-icons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    /* Keep 4 columns for entities */
+    .entity-icons {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+    }
+
+    /* Overworld and Cavern - 4 columns on small phones */
+    div[style*="grid-template-columns: repeat(14"] {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 12px !important;
+    }
+
+    div[style*="grid-template-columns: repeat(4"] {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 12px !important;
+    }
+
+    /* Icon sizes */
+    .icon-placeholder {
+        width: 50px;
+        height: 50px;
+    }
+
+    .icon-label {
+        font-size: 10px;
+    }
+
+    /* Navigation arrows */
+    .nav-arrow {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    top: calc(100% + 5px);
+    z-index: 50;
+}
+
+    /* Reset button */
+    .reset-button {
+        padding: 25px 15px;
+        font-size: 14px;
+        width: calc(100% - 20px);
+        margin: 0 auto;
+    }
+
+    /* Smaller section titles */
+    .section-title {
+        font-size: 14px;
+    }
+
+    .section-subtitle {
+        font-size: 9px;
+    }
+
+    /* Tree graphic smaller */
+    .tree-graphic {
+        width: 80px;
+        height: 80px;
+    }
+
+    .tree-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .advanced-title {
+        font-size: 14px;
+    }
+
+    .advanced-subtitle {
+        font-size: 11px;
+    }
+}
+
+/* ==================== END OF MOBILE SUPPORT ==================== */
+
     </style>
 </head>
 <body>
+    <!-- Install App Button (Mobile Only) -->
+    <div id="installBtnWrapper" style="display: none; text-align: center; padding: 10px 20px;">
+        <button id="installBtn" style="
+            background: #000;
+            border: 2px solid #f4ecba;
+            color: #f4ecba;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 400px;
+        ">📱 Install App</button>
+    </div>
+
     <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 5px; width: 100%;">
-        <div style="width: 40%; height: 2px; background-color: #f5c645;"></div>
+        <div class="divider-line-short" style="width: 40%; height: 2px; background-color: #f5c645;"></div>
         <div style="width: 100%; height: 2px; background-color: #fdf6ce;"></div>
     </div>
 
-    <div class="container">
+    <div class="container" id="mainContainer">
         <div class="debug-info" id="debugInfo"></div>
         
 <div class="top-section">
-    <div>
+    <div class="section-region">
         <div class="section-title">Region</div>
-<div class="section-subtitle">Only <span style="color: #ffc23e;">one</span> can be selected</div>
+<div class="section-subtitle">Only <span style="color: #ffc23e;">one</span> can be selected (Deselect to show <span style="color: #ffedc5; text-decoration: underline;">all</span> Regions)</div>
 <div class="region-icons" style="margin-top: 8px;">
 <div class="icon-item" data-filter="Overworld">
                 <div class="icon-placeholder"><img src="icons/deco28.png" alt="Overworld"></div>
@@ -656,7 +1145,7 @@
 </div>
     </div>
 
-    <div style="text-align: center;">
+    <div class="section-entity" style="text-align: center;">
         <div style="display: inline-block; text-align: left; margin-top: 12px;">
             <div class="section-title">Entity</div>
             <div class="entity-icons" id="entityFilters" style="margin-top: 8px;">
@@ -676,7 +1165,7 @@
         </div>
     </div>
 
-<div style="text-align: center;">
+<div class="section-addition" style="text-align: center;">
         <div class="section-title">Addition</div>
 <div class="section-subtitle">(<span style="color: #ffc23e;">containing</span> tables, chairs, boxes, statues, bridges, market stands, pillars etc. that <span style="color: #ffedc5; text-decoration: underline;">isn't</span> included in the filter list)</div>
 <div class="addition-icons" id="additionFilters" style="display: inline-block; margin-top: 8px;">
@@ -688,7 +1177,7 @@
     </div>
 </div>
 
-<div style="margin-bottom: 0px; margin-top: -15px;">
+<div class="section-overworld" style="margin-bottom: 0px; margin-top: -15px;">
     <div class="section-title">Overworld</div>
     <div style="display: grid; grid-template-columns: repeat(14, auto); gap: 5px 15px; justify-content: start; margin-top: 8px;">
         <div class="icon-item" data-filter="Tree">
@@ -758,7 +1247,7 @@
 </div>
 </div>
 
-<div style="margin-bottom: 0px;">
+<div class="section-cavern" style="margin-bottom: 0px;">
     <div class="section-title">Cavern</div>
     <div style="display: grid; grid-template-columns: repeat(4, auto); gap: 15px; justify-content: start; margin-top: 8px;">
         <div class="icon-item" data-filter="Boulder">
@@ -780,7 +1269,7 @@
     </div>
 </div>
 
-<div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 0px; margin-top: -130px; margin-bottom: 0px;">
+<div class="section-advanced" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 0px; margin-top: -130px; margin-bottom: 0px;">
     <div style="grid-column: 7 / 9; display: flex; justify-content: center;">
 <div class="advanced-section" style="margin-bottom: 0px; padding: 5px 0px;">
             <div class="advanced-title">Advanced</div>
@@ -796,8 +1285,8 @@
                     <div class="slider-track">
                         <div class="slider-track-bg"></div>
                         <div class="slider-fill" id="sliderFill"></div>
-                        <input type="range" min="1" max="8" value="1" class="slider" id="treeSliderMin">
-                        <input type="range" min="1" max="8" value="8" class="slider" id="treeSliderMax">
+                        <input type="range" min="1" max="8" step="0.01" value="1" class="slider" id="treeSliderMin">
+                        <input type="range" min="1" max="8" step="0.01" value="8" class="slider" id="treeSliderMax">
                     </div>
                     <div class="slider-labels">
                         <span>1</span>
@@ -825,7 +1314,7 @@
 	  </div>
 </div>
 
-<div style="position: relative; height: 0;">
+<div class="section-reset-wrapper" style="position: relative; height: 0;">
     <div style="position: absolute; left: 0; top: -55px;">
         <button class="reset-button" id="resetBtn">Reset</button>
     </div>
@@ -840,9 +1329,9 @@
 
 </div>
 
-<div style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: -5px; margin-bottom: 0px; width: 100%;">
+<div class="gallery-divider" style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: -5px; margin-bottom: 0px; width: 100%;">
     <div style="width: 100%; height: 2px; background-color: #fdf6ce;"></div>
-    <div style="width: 40%; height: 2px; background-color: #f5c645;"></div>
+    <div class="divider-line-short" style="width: 40%; height: 2px; background-color: #f5c645;"></div>
 </div>
 
 <div class="container">
@@ -850,7 +1339,10 @@
             <button class="nav-arrow" id="prevBtn"><img src="icons/copyofdeco33.png" alt="Previous"></button>
             <div class="gallery-grid" id="mapGallery">
             </div>
-            <button class="nav-arrow" id="nextBtn"><img src="icons/copyofdeco33edited.png" alt="Next"></button>
+            <div class="nav-right-wrapper">
+                <div id="pageCounter" class="page-counter"><span style="color: #e6d5b1">1</span><span style="color: #ffc43d">/1</span></div>
+                <button class="nav-arrow" id="nextBtn"><img src="icons/copyofdeco33edited.png" alt="Next"></button>
+            </div>
         </div>
 
         <div class="modal-overlay" id="modalOverlay">
@@ -862,8 +1354,8 @@
     </div>
 
     <div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 0px; margin-bottom: 0px; width: 100%;">
+    <div class="divider-line-short" style="width: 40%; height: 2px; background-color: #f5c645;"></div>
     <div style="width: 100%; height: 2px; background-color: #fdf6ce;"></div>
-    <div style="width: 40%; height: 2px; background-color: #f5c645;"></div>
     <div style="position: absolute; top: 2px; left: 0; width: 100%; height: 120px; padding: 0; overflow: hidden; z-index: -1;">
         <svg viewBox="0 0 1200 120" preserveAspectRatio="none" style="width: 100%; height: 100%; display: block; filter: blur(0.5px);">
             <defs>
@@ -900,7 +1392,7 @@
         let allMaps = [];
         let filteredMaps = [];
         let currentPage = 0;
-        const mapsPerPage = 18;
+        let mapsPerPage = window.innerWidth <= 768 ? 15 : 18;
         
         const filters = {
             region: null,
@@ -915,16 +1407,51 @@
             setupModal();
             loadCSV();
             positionSliderMarks();
+            setupMobileAnimations();
         });
 
         window.addEventListener('resize', function() {
             positionSliderMarks();
+            
+            const newPerPage = window.innerWidth <= 768 ? 15 : 18;
+            if (newPerPage !== mapsPerPage) {
+                mapsPerPage = newPerPage;
+                updateDisplay();
+            }
         });
 
         function setupModal() {
             const modal = document.getElementById('modalOverlay');
             modal.addEventListener('click', function() {
                 this.classList.remove('active');
+            });
+        }
+
+        function setupMobileAnimations() {
+            // Helper to add temporary class for animation
+            const triggerAnimation = (element, className, duration) => {
+                element.classList.add(className);
+                setTimeout(() => {
+                    element.classList.remove(className);
+                }, duration);
+            };
+
+            // Reset Button
+            const resetBtn = document.getElementById('resetBtn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', function() {
+                    if (window.innerWidth > 768) return;
+                    triggerAnimation(this, 'mobile-active', 100);
+                });
+            }
+
+            // Filter Icons (using delegation)
+            document.body.addEventListener('click', function(e) {
+                if (window.innerWidth > 768) return;
+                const iconItem = e.target.closest('.icon-item');
+                if (iconItem) {
+                    triggerAnimation(iconItem, 'mobile-active', 100);
+                }
             });
         }
 
@@ -953,28 +1480,54 @@ document.querySelectorAll('[style*="grid-template-columns: repeat(4"]').forEach(
             const sliderMin = document.getElementById('treeSliderMin');
             const sliderMax = document.getElementById('treeSliderMax');
             
-            sliderMin.addEventListener('input', function() {
-                let newMin = parseInt(this.value);
-                if (newMin >= filters.treeCountMax) {
-                    newMin = filters.treeCountMax - 1;
-                    this.value = newMin;
+            function handleSliderInput() {
+                const minVal = parseFloat(sliderMin.value);
+                const maxVal = parseFloat(sliderMax.value);
+                
+                // Prevent crossing with a small buffer during drag
+                if (minVal > maxVal - 0.1) {
+                    if (this === sliderMin) sliderMin.value = maxVal - 0.1;
+                    else sliderMax.value = minVal + 0.1;
                 }
-                filters.treeCountMin = newMin;
+                
                 updateSliderFill();
-                applyFilters();
-            });
-            
-            sliderMax.addEventListener('input', function() {
-                let newMax = parseInt(this.value);
-                if (newMax <= filters.treeCountMin) {
-                    newMax = filters.treeCountMin + 1;
-                    this.value = newMax;
+                
+                // Update filters with rounded values
+                const roundedMin = Math.round(parseFloat(sliderMin.value));
+                const roundedMax = Math.round(parseFloat(sliderMax.value));
+                
+                if (filters.treeCountMin !== roundedMin || filters.treeCountMax !== roundedMax) {
+                    filters.treeCountMin = roundedMin;
+                    filters.treeCountMax = roundedMax;
+                    applyFilters();
                 }
-                filters.treeCountMax = newMax;
+            }
+
+            function handleSliderChange() {
+                // Snap to nearest integer on release
+                let val = Math.round(parseFloat(this.value));
+                this.value = val;
+                
+                // Ensure valid integer gap
+                const min = Math.round(parseFloat(sliderMin.value));
+                const max = Math.round(parseFloat(sliderMax.value));
+                
+                if (min >= max) {
+                    if (this === sliderMin) sliderMin.value = max - 1;
+                    else sliderMax.value = min + 1;
+                }
+                
+                filters.treeCountMin = parseInt(sliderMin.value);
+                filters.treeCountMax = parseInt(sliderMax.value);
                 updateSliderFill();
                 applyFilters();
                 positionSliderMarks();
-            });
+            }
+            
+            sliderMin.addEventListener('input', handleSliderInput);
+            sliderMax.addEventListener('input', handleSliderInput);
+            sliderMin.addEventListener('change', handleSliderChange);
+            sliderMax.addEventListener('change', handleSliderChange);
 
             // Reposition marks when sliders move
             document.querySelectorAll('.advanced-section .slider').forEach(s => s.addEventListener('input', positionSliderMarks));
@@ -987,9 +1540,12 @@ document.querySelectorAll('[style*="grid-template-columns: repeat(4"]').forEach(
             document.getElementById('nextBtn').addEventListener('click', () => changePage(1));
         }
 
-        function positionSliderMarks() {
-            const container = document.querySelector('.advanced-section .slider-container');
-            if (!container) return;
+function positionSliderMarks() {
+    // Enable for all screen sizes
+    // if (window.innerWidth <= 768) return;
+    
+    const container = document.querySelector('.advanced-section .slider-container');
+    if (!container) return;
             const labels = container.querySelectorAll('.slider-labels span');
             const ticks = container.querySelectorAll('.slider-ticks span');
             const track = container.querySelector('.slider-track');
@@ -1176,43 +1732,43 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
             `;
         }
 
-        function applyFilters() {
-    filteredMaps = allMaps.filter(map => {
-        // Region filter
-        if (filters.region) {
-            if (!hasValue(map[filters.region])) return false;
+        function checkMapMatches(map) {
+            // Region filter
+            if (filters.region) {
+                if (!hasValue(map[filters.region])) return false;
+            }
+            
+            // Entity filters - ALL selected entities must be present
+            if (filters.entities.length > 0) {
+                const hasAllEntities = filters.entities.every(entity => hasValue(map[entity]));
+                if (!hasAllEntities) return false;
+            }
+            
+            // Addition filters - ALL selected additions must be present
+            if (filters.additions.length > 0) {
+                const hasAllAdditions = filters.additions.every(addition => hasValue(map[addition]));
+                if (!hasAllAdditions) return false;
+            }
+            
+            // Tree count filter
+            if (filters.treeCountMin > 1 || filters.treeCountMax < 8) {
+                const treeCount = parseInt(map.NumberofTrees) || 0;
+                if (treeCount === 0) return false;
+                if (treeCount < filters.treeCountMin || treeCount > filters.treeCountMax) return false;
+            }
+            
+            return true;
         }
-        
-        // Entity filters - ALL selected entities must be present
-        if (filters.entities.length > 0) {
-            const hasAllEntities = filters.entities.every(entity => hasValue(map[entity]));
-            if (!hasAllEntities) return false;
-        }
-        
-        // Addition filters - ALL selected additions must be present
-        if (filters.additions.length > 0) {
-            const hasAllAdditions = filters.additions.every(addition => hasValue(map[addition]));
-            if (!hasAllAdditions) return false;
-        }
-        
-// Tree count filter - only apply if not covering full range
-        if (filters.treeCountMin > 1 || filters.treeCountMax < 8) {
-            const treeCount = parseInt(map.NumberofTrees) || 0;
-            // Skip maps with no tree count data when filtering
-            if (treeCount === 0) return false;
-            if (treeCount < filters.treeCountMin || treeCount > filters.treeCountMax) return false;
-        }
-        
-        return true;
-    });
 
-    console.log('Filters applied:', filters);
-    console.log('Total maps after filter:', filteredMaps.length);
-    
-    currentPage = 0;
-    updateDisplay();
-    updateDebugInfo();
-}
+        function applyFilters() {
+            filteredMaps = allMaps.filter(map => checkMapMatches(map));
+
+            console.log('Filters applied:', filters);
+            
+            currentPage = 0;
+            updateDisplay();
+            updateDebugInfo();
+        }
 
         function resetFilters() {
     filters.region = null;
@@ -1226,21 +1782,25 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
     document.getElementById('treeSliderMin').value = 1;
     document.getElementById('treeSliderMax').value = 8;
     updateSliderFill();
+    currentPage = 0;
     applyFilters();
 }
 
         function updateSliderFill() {
-            const fill = document.getElementById('sliderFill');
-            const min = filters.treeCountMin;
-            const max = filters.treeCountMax;
-            const range = 8;
-            
-            const leftPercent = ((min - 1) / (range - 1)) * 100;
-            const rightPercent = ((max - 1) / (range - 1)) * 100;
-            
-            fill.style.left = leftPercent + '%';
-            fill.style.width = (rightPercent - leftPercent) + '%';
-        }
+    const fill = document.getElementById('sliderFill');
+    const min = parseFloat(document.getElementById('treeSliderMin').value);
+    const max = parseFloat(document.getElementById('treeSliderMax').value);
+    const range = 8;
+    
+    const leftPercent = ((min - 1) / (range - 1)) * 100;
+    const rightPercent = ((max - 1) / (range - 1)) * 100;
+    
+    fill.style.setProperty('left', leftPercent + '%', 'important');
+    fill.style.setProperty('width', (rightPercent - leftPercent) + '%', 'important');
+    fill.style.setProperty('display', 'block', 'important');
+    
+    console.log('Fill updated:', leftPercent, rightPercent);
+}
 
         function updateDisplay() {
     const gallery = document.getElementById('mapGallery');
@@ -1258,11 +1818,18 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
     const remainingSlots = mapsPerPage - pageMaps.length;
     if (remainingSlots > 0) {
         for (let i = 0; i < remainingSlots; i++) {
-            html += `<div class="map-thumbnail" style="cursor: default; pointer-events: none;"></div>`;
+            html += `
+            <div class="map-thumbnail" style="cursor: default; pointer-events: none;">
+                <div style="width: 100%; padding-top: 100%;"></div>
+            </div>`;
         }
     }
 
     gallery.innerHTML = html;
+
+    const totalPages = Math.ceil(filteredMaps.length / mapsPerPage) || 1;
+    const current = currentPage + 1;
+    document.getElementById('pageCounter').innerHTML = `<span style="color: #e6d5b1">${current}</span><span style="color: #ffc43d">/${totalPages}</span>`;
 
     document.getElementById('prevBtn').disabled = currentPage === 0;
     document.getElementById('nextBtn').disabled = end >= filteredMaps.length;
@@ -1287,6 +1854,27 @@ function preloadNextPage() {
             currentPage = Math.max(0, Math.min(maxPage, currentPage + direction));
             updateDisplay();
         }
+
+        // PWA Install functionality
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            // Only show on mobile
+            if (window.innerWidth <= 768) {
+                document.getElementById('installBtnWrapper').style.display = 'block';
+            }
+        });
+
+        document.getElementById('installBtn').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                document.getElementById('installBtnWrapper').style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
