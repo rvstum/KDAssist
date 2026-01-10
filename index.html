@@ -843,7 +843,7 @@ div[style*="margin-bottom: 0px; padding: 5px 0px"] {
 
 /* SLIDER FULL WIDTH - EXTEND TO EDGES */
 .advanced-section .slider-container {
-    width: 70% !important;
+    width: 85% !important;
     max-width: none !important;
     padding: 0 10px !important;
     margin: -10px auto 0 auto !important;
@@ -878,9 +878,13 @@ div[style*="margin-bottom: 0px; padding: 5px 0px"] {
 .advanced-section .slider::-moz-range-thumb {
     width: 12px !important;
     height: 24px !important;
-    box-shadow: none !important;
+    box-shadow: 0 0 0 25px transparent !important;
     border-radius: 12px !important;
     border: 2px solid #fdf6ce !important;
+}
+
+.advanced-section .slider::-webkit-slider-thumb {
+    box-shadow: 0 0 0 25px transparent !important;
 }
 
 /* Fix the slider fill to show properly */
