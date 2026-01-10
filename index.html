@@ -461,6 +461,8 @@
     font-weight: bold;
     margin-bottom: 2px;
     white-space: nowrap;
+    min-width: 50px;
+    text-align: center;
 }
 
 @media (hover: hover) {
@@ -1027,6 +1029,7 @@ div[style*="margin-bottom: 0px; padding: 5px 0px"] {
         margin-top: 10px;
         z-index: 51;
         font-size: 18px;
+        min-width: 60px;
     }
 
     /* MAKE ARROWS BIGGER AND POSITION CLOSER TO GALLERY */
@@ -1531,6 +1534,7 @@ body {
         let mapsPerPage = window.innerWidth <= 1024 ? 15 : 18;
         let filterDebounceTimer = null;
         let isFilteringInProgress = false;
+        const imageCache = new Map();
         
         const filters = {
             region: null,
@@ -1594,8 +1598,25 @@ body {
 function showLocationImage(locationImage) {
             const modal = document.getElementById('modalOverlay');
             const modalImg = document.getElementById('modalImage');
-            modalImg.src = locationImage;
-            modal.classList.add('active');
+            
+            // Check if already in cache
+            if (imageCache.has(locationImage)) {
+                modalImg.src = imageCache.get(locationImage);
+                modal.classList.add('active');
+            } else {
+                // Show modal and load
+                modal.classList.add('active');
+                modalImg.src = '';
+                modalImg.style.opacity = '0.5';
+                
+                const img = new Image();
+                img.onload = () => {
+                    imageCache.set(locationImage, locationImage);
+                    modalImg.src = locationImage;
+                    modalImg.style.opacity = '1';
+                };
+                img.src = locationImage;
+            }
         }
 
         function setupEventListeners() {
@@ -1988,22 +2009,19 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
     document.getElementById('prevBtn').disabled = currentPage === 0;
     document.getElementById('nextBtn').disabled = end >= filteredMaps.length;
     
-    // Smart mobile preloading
+// Aggressive mobile preloading - start immediately
     if (window.innerWidth <= 1024) {
-        const preloadFn = () => {
+        setTimeout(() => {
             pageMaps.forEach((map, i) => {
-                setTimeout(() => {
-                    const img = new Image();
-                    img.src = map.locationImage;
-                }, i * 150);
+                if (!imageCache.has(map.locationImage)) {
+                    setTimeout(() => {
+                        const img = new Image();
+                        img.onload = () => imageCache.set(map.locationImage, map.locationImage);
+                        img.src = map.locationImage;
+                    }, i * 100);
+                }
             });
-        };
-        
-        if ('requestIdleCallback' in window) {
-            requestIdleCallback(preloadFn, { timeout: 2000 });
-        } else {
-            setTimeout(preloadFn, 500);
-        }
+        }, 300);
     }
 }
 
