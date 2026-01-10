@@ -1,27 +1,25 @@
 {
   "name": "KDAssist",
   "short_name": "KDAssist",
-  "description": ".",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
   "theme_color": "#1a73e8",
   "background_color": "#ffffff",
   "icons": [
     {
-      "src": "icons/mapicon192.png",
+      "src": "https://rvstum.github.io/icons/mapicon192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/mapicon512.png",
+      "src": "https://rvstum.github.io/icons/mapicon512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/mapicon512.png",
+      "src": "https://rvstum.github.io/icons/mapicon512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
