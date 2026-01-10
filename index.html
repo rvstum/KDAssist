@@ -1865,24 +1865,47 @@ function preloadNextPage() {
             updateDisplay();
         }
 
-        // PWA Install functionality
+        // PWA Install functionality - WITH DEBUGGING
         let deferredPrompt;
 
+        // DEBUG: Check if elements exist
+        console.log('Install button wrapper:', document.getElementById('installBtnWrapper'));
+        console.log('Install button:', document.getElementById('installBtn'));
+        console.log('Screen width:', window.innerWidth);
+
+        // DEBUG: Force show button after 2 seconds for testing
+        setTimeout(() => {
+            const wrapper = document.getElementById('installBtnWrapper');
+            if (wrapper) {
+                wrapper.style.display = 'block';
+                wrapper.style.background = 'rgba(255, 0, 0, 0.5)';
+                console.log('FORCED BUTTON TO SHOW - Should see red background');
+            } else {
+                console.log('ERROR: Button wrapper not found!');
+            }
+        }, 2000);
+
         window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('beforeinstallprompt fired!');
             e.preventDefault();
             deferredPrompt = e;
             // Only show on mobile
             if (window.innerWidth <= 768) {
                 document.getElementById('installBtnWrapper').style.display = 'block';
+                console.log('Mobile detected, showing button');
             }
         });
 
         document.getElementById('installBtn').addEventListener('click', async () => {
+            console.log('Install button clicked');
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
+                console.log('Install outcome:', outcome);
                 deferredPrompt = null;
                 document.getElementById('installBtnWrapper').style.display = 'none';
+            } else {
+                console.log('No deferred prompt available');
             }
         });
     </script>
