@@ -1530,6 +1530,7 @@ body {
         let currentPage = 0;
         let mapsPerPage = window.innerWidth <= 1024 ? 15 : 18;
         let filterDebounceTimer = null;
+        let isFilteringInProgress = false;
         
         const filters = {
             region: null,
@@ -1897,13 +1898,21 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
         }
 
         function debounceApplyFilters() {
-    if (filterDebounceTimer) clearTimeout(filterDebounceTimer);
-    filterDebounceTimer = setTimeout(() => {
+    // Cancel any pending filter application
+    if (filterDebounceTimer) {
+        cancelAnimationFrame(filterDebounceTimer);
+    }
+    // Use requestAnimationFrame for smooth, immediate updates
+    filterDebounceTimer = requestAnimationFrame(() => {
         applyFilters();
-    }, 0);  // Changed from 100 to 0 for instant response
+        filterDebounceTimer = null;
+    });
 }
 
         function applyFilters() {
+            if (isFilteringInProgress) return;
+            isFilteringInProgress = true;
+            
             filteredMaps = allMaps.filter(map => checkMapMatches(map));
 
             console.log('Filters applied:', filters);
@@ -1911,6 +1920,8 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
             currentPage = 0;
             updateDisplay();
             updateDebugInfo();
+            
+            isFilteringInProgress = false;
         }
 
         function resetFilters() {
