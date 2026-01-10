@@ -583,7 +583,6 @@
             border-radius: 0px;
             display: block;
             margin: 0 auto;
-            transition: opacity 0.15s ease;
         }
 
         @keyframes fadeIn {
@@ -1965,7 +1964,7 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
 
     let html = pageMaps.map((map, index) => `
         <div class="map-thumbnail" onclick="showLocationImage('${map.locationImage}')">
-            <img src="${map.mapImage}" alt="Map" onerror="this.style.display='none'" loading="lazy">
+            <img src="${map.mapImage}" alt="Map" onerror="this.style.display='none'">
         </div>
     `).join('');
 
