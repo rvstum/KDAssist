@@ -1,16 +1,8 @@
 {
   "name": "KDAssist",
-  "short_name": "Treasure Maps",
-  "start_url": "/",
+  "short_name": "KDAssist",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#000000",
-  "theme_color": "#d4af37",
-  "icons": [
-    {
-      "src": "/icons/map2a.png",
-      "sizes": "any",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
+  "theme_color": "#d4af37"
 }
