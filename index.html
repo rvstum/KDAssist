@@ -701,13 +701,13 @@
         padding-bottom: 0px;
     }
 
-    /* Mobile animation speed (0.1s) */
-    .icon-item, .reset-button {
-        transition: all 0.1s;
-    }
-    .icon-placeholder, .icon-label {
-        transition: transform 0.1s ease;
-    }
+    /* Mobile animation speed (instant) */
+.icon-item, .reset-button {
+    transition: none;
+}
+.icon-placeholder, .icon-label {
+    transition: none;
+}
 
     /* Reorder sections for mobile */
     #mainContainer {
@@ -1558,32 +1558,8 @@ body {
         }
 
         function setupMobileAnimations() {
-            // Helper to add temporary class for animation
-            const triggerAnimation = (element, className, duration) => {
-                element.classList.add(className);
-                setTimeout(() => {
-                    element.classList.remove(className);
-                }, duration);
-            };
-
-            // Reset Button
-            const resetBtn = document.getElementById('resetBtn');
-            if (resetBtn) {
-                resetBtn.addEventListener('click', function() {
-                    if (window.innerWidth > 1024) return;
-                    triggerAnimation(this, 'mobile-active', 100);
-                });
-            }
-
-            // Filter Icons (using delegation)
-            document.body.addEventListener('click', function(e) {
-                if (window.innerWidth > 1024) return;
-                const iconItem = e.target.closest('.icon-item');
-                if (iconItem) {
-                    triggerAnimation(iconItem, 'mobile-active', 100);
-                }
-            });
-        }
+    // Mobile animations removed for instant response
+}
 
         function showLocationImage(locationImage) {
             const modal = document.getElementById('modalOverlay');
@@ -1892,11 +1868,11 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
         }
 
         function debounceApplyFilters() {
-            if (filterDebounceTimer) clearTimeout(filterDebounceTimer);
-            filterDebounceTimer = setTimeout(() => {
-                applyFilters();
-            }, 100);
-        }
+    if (filterDebounceTimer) clearTimeout(filterDebounceTimer);
+    filterDebounceTimer = setTimeout(() => {
+        applyFilters();
+    }, 0);  // Changed from 100 to 0 for instant response
+}
 
         function applyFilters() {
             filteredMaps = allMaps.filter(map => checkMapMatches(map));
