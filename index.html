@@ -1986,28 +1986,8 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
     const current = currentPage + 1;
     document.getElementById('pageCounter').innerHTML = `<span style="color: #e6d5b1">${current}</span><span style="color: #ffc43d">/${totalPages}</span>`;
 
-    document.getElementById('prevBtn').disabled = currentPage === 0;
+document.getElementById('prevBtn').disabled = currentPage === 0;
     document.getElementById('nextBtn').disabled = end >= filteredMaps.length;
-    
-    // Preload location images in background after initial load
-    preloadCurrentPageLocations();
-}
-
-function preloadCurrentPageLocations() {
-    // Only preload location images for visible thumbnails after page loads
-    const start = currentPage * mapsPerPage;
-    const end = start + mapsPerPage;
-    const pageMaps = filteredMaps.slice(start, end);
-    
-    // Wait 1 second after page loads, then preload in background
-    setTimeout(() => {
-        pageMaps.forEach((map, index) => {
-            setTimeout(() => {
-                const img = new Image();
-                img.src = map.locationImage;
-            }, index * 100);
-        });
-    }, 1000);
 }
 
         function changePage(direction) {
