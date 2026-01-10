@@ -1515,6 +1515,7 @@ body {
         let filteredMaps = [];
         let currentPage = 0;
         let mapsPerPage = window.innerWidth <= 1024 ? 15 : 18;
+        let filterDebounceTimer = null;
         
         const filters = {
             region: null,
@@ -1628,7 +1629,7 @@ document.querySelectorAll('[style*="grid-template-columns: repeat(4"]').forEach(
                 if (filters.treeCountMin !== roundedMin || filters.treeCountMax !== roundedMax) {
                     filters.treeCountMin = roundedMin;
                     filters.treeCountMax = roundedMax;
-                    applyFilters();
+                    debounceApplyFilters();
                 }
             }
 
@@ -1649,7 +1650,7 @@ document.querySelectorAll('[style*="grid-template-columns: repeat(4"]').forEach(
                 filters.treeCountMin = parseInt(sliderMin.value);
                 filters.treeCountMax = parseInt(sliderMax.value);
                 updateSliderFill();
-                applyFilters();
+                debounceApplyFilters();
                 positionSliderMarks();
             }
             
@@ -1754,10 +1755,7 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
             filters.region = filter;
         }
         
-        // Defer filtering to allow UI update immediately
-        setTimeout(() => {
-            applyFilters();
-        }, 10);
+        debounceApplyFilters();
     }
 }
 
@@ -1787,10 +1785,7 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
         filters.entities.push(filter);
     }
     
-    // Defer filtering to allow UI update immediately
-    setTimeout(() => {
-        applyFilters();
-    }, 10);
+    debounceApplyFilters();
 }
 
         function extractFilename(wixUrl) {
@@ -1822,7 +1817,8 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
                                 return {
                                     ...row,
                                     mapImage: 'maps/' + extractFilename(row['Main Project Image']),
-                                    locationImage: 'locations/' + extractFilename(row['Image'])
+                                    locationImage: 'locations/' + extractFilename(row['Image']),
+                                    _treeCount: parseInt(row.NumberofTrees) || 0
                                 };
                             });
                             
@@ -1887,12 +1883,19 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
             
             // Tree count filter
             if (filters.treeCountMin > 1 || filters.treeCountMax < 8) {
-                const treeCount = parseInt(map.NumberofTrees) || 0;
+                const treeCount = map._treeCount;
                 if (treeCount === 0) return false;
                 if (treeCount < filters.treeCountMin || treeCount > filters.treeCountMax) return false;
             }
             
             return true;
+        }
+
+        function debounceApplyFilters() {
+            if (filterDebounceTimer) clearTimeout(filterDebounceTimer);
+            filterDebounceTimer = setTimeout(() => {
+                applyFilters();
+            }, 100);
         }
 
         function applyFilters() {
@@ -1918,7 +1921,7 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
     document.getElementById('treeSliderMax').value = 8;
     updateSliderFill();
     currentPage = 0;
-    applyFilters();
+    debounceApplyFilters();
 }
 
         function updateSliderFill() {
