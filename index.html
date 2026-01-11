@@ -1703,12 +1703,16 @@ function showLocationImage(locationImage) {
             spinner.style.display = 'block';
             modal.classList.add('active');
             
-            if (downloadBtn) downloadBtn.href = locationImage;
+            if (downloadBtn) {
+                downloadBtn.style.display = 'none';
+                downloadBtn.href = locationImage;
+            }
             
             const img = new Image();
             img.onload = function() {
                 modalImg.src = locationImage;
                 modalImg.style.display = 'block';
+                if (downloadBtn) downloadBtn.style.display = 'flex';
                 spinner.style.display = 'none';
                 imageCache.set(locationImage, locationImage);
             };
