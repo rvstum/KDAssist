@@ -923,6 +923,13 @@ div[style*="margin-bottom: 0px; padding: 5px 0px"] {
     left: -16px !important;
 }
 
+/* Fix for PWA Android rendering offset */
+@media (display-mode: standalone) {
+    .advanced-section .slider {
+        top: 28px !important;
+    }
+}
+
 .advanced-section .slider::-webkit-slider-thumb {
     width: 44px !important;
     height: 44px !important;
@@ -1318,6 +1325,18 @@ body {
         font-size: 18px !important;
         padding: 15px 0 !important;
         width: 100% !important;
+    }
+
+    /* Adjust feedback button for small screens */
+    .feedback-container {
+        right: -5px !important;
+    }
+    .feedback-container .feedback-text {
+        font-size: 7px !important;
+    }
+    .feedback-container .feedback-icon {
+        width: 20px !important;
+        height: 20px !important;
     }
 }
 }
