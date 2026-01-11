@@ -878,13 +878,13 @@ div[style*="margin-bottom: 0px; padding: 5px 0px"] {
 .advanced-section .slider::-moz-range-thumb {
     width: 12px !important;
     height: 24px !important;
-    box-shadow: 0 0 0 25px transparent !important;
+    box-shadow: 0 0 0 50px transparent !important;
     border-radius: 12px !important;
     border: 2px solid #fdf6ce !important;
 }
 
 .advanced-section .slider::-webkit-slider-thumb {
-    box-shadow: 0 0 0 25px transparent !important;
+    box-shadow: 0 0 0 50px transparent !important;
 }
 
 /* Fix the slider fill to show properly */
@@ -1602,24 +1602,12 @@ body {
 function showLocationImage(locationImage) {
             const modal = document.getElementById('modalOverlay');
             const modalImg = document.getElementById('modalImage');
+            modalImg.src = locationImage;
+            modal.classList.add('active');
             
-            // Check if already in cache
-            if (imageCache.has(locationImage)) {
-                modalImg.src = imageCache.get(locationImage);
-                modal.classList.add('active');
-            } else {
-                // Show modal and load
-                modal.classList.add('active');
-                modalImg.src = '';
-                modalImg.style.opacity = '0.5';
-                
-                const img = new Image();
-                img.onload = () => {
-                    imageCache.set(locationImage, locationImage);
-                    modalImg.src = locationImage;
-                    modalImg.style.opacity = '1';
-                };
-                img.src = locationImage;
+            // Cache for preloading
+            if (!imageCache.has(locationImage)) {
+                imageCache.set(locationImage, locationImage);
             }
         }
 
