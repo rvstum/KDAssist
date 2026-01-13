@@ -611,6 +611,7 @@
             opacity: 0;
             text-align: center;
             filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));
+            will-change: transform, opacity;
         }
 
         .modal-content.image-loaded {
@@ -2124,6 +2125,10 @@ function showLocationImage(locationImage) {
                 modalImg.style.display = 'block';
                 if (downloadBtn) downloadBtn.style.display = 'flex';
                 spinner.style.display = 'none';
+                
+                // Force reflow to ensure animation triggers on mobile
+                void modalContent.offsetWidth;
+                
                 modalContent.classList.add('image-loaded');
                 imageCache.set(locationImage, locationImage);
             };
