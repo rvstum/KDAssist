@@ -3,6 +3,17 @@
 <head>
     <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-60DVCGD21Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-60DVCGD21Q');
+</script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Graal Classic Treasure Maps</title>
     <meta name="theme-color" content="#000000">
@@ -611,7 +622,6 @@
             opacity: 0;
             text-align: center;
             filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));
-            will-change: transform, opacity;
         }
 
         .modal-content.image-loaded {
@@ -685,7 +695,7 @@
         .actions-wrapper {
             position: absolute;
             right: 12%;
-            top: 0;
+            top: 35px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -1398,7 +1408,7 @@ body {
     /* Adjust actions wrapper for mobile */
     .actions-wrapper {
         right: 2px !important;
-        top: 0 !important;
+        top: 20px !important;
     }
 
     .feedback-container .feedback-text {
@@ -1602,7 +1612,6 @@ body {
 <div class="top-section">
     <div class="section-region">
         <div class="section-title">Region</div>
-<div class="section-subtitle">Only <span style="color: #ffc23e;">one</span> can be selected (Deselect to show <span style="color: #ffedc5; text-decoration: underline;">all</span> Regions)</div>
 <div class="region-icons" style="margin-top: 8px;">
 <div class="icon-item" data-filter="Overworld">
                 <div class="icon-placeholder"><img src="icons/deco28.png" alt="Overworld"></div>
@@ -1624,7 +1633,7 @@ body {
     </div>
 
     <div class="section-entity" style="text-align: center;">
-        <div style="display: inline-block; text-align: left; margin-top: 12px;">
+        <div style="display: inline-block; text-align: left; margin-top: 0px;">
             <div class="section-title">Entity</div>
             <div class="entity-icons" id="entityFilters" style="margin-top: 8px;">
                 <div class="icon-item" data-filter="Baddy">
@@ -1655,8 +1664,8 @@ body {
     </div>
 </div>
 
-<div class="section-overworld" style="margin-bottom: 0px; margin-top: -15px;">
-    <div class="section-title">Overworld</div>
+<div class="section-overworld" style="margin-bottom: 0px; margin-top: -25px;">
+    <div class="section-title" style="position: relative; top: 5px;">Overworld</div>
     <div style="display: grid; grid-template-columns: repeat(14, auto); gap: 5px 15px; justify-content: start; margin-top: 8px;">
         <div class="icon-item" data-filter="Tree">
             <div class="icon-placeholder"><img src="icons/Deco1.png" alt="Tree"></div>
@@ -1726,7 +1735,7 @@ body {
 </div>
 
 <div class="section-cavern" style="margin-bottom: 0px;">
-    <div class="section-title">Cavern</div>
+    <div class="section-title" style="position: relative; top: 5px;">Cavern</div>
     <div style="display: grid; grid-template-columns: repeat(4, auto); gap: 15px; justify-content: start; margin-top: 8px;">
         <div class="icon-item" data-filter="Boulder">
             <div class="icon-placeholder"><img src="icons/Deco12.png" alt="Boulder"></div>
@@ -1979,7 +1988,7 @@ body {
         const imageCache = new Map();
         
         const filters = {
-            region: null,
+            regions: [],
             entities: [],
             additions: [],
             treeCountMin: 1,
@@ -2125,10 +2134,6 @@ function showLocationImage(locationImage) {
                 modalImg.style.display = 'block';
                 if (downloadBtn) downloadBtn.style.display = 'flex';
                 spinner.style.display = 'none';
-                
-                // Force reflow to ensure animation triggers on mobile
-                void modalContent.offsetWidth;
-                
                 modalContent.classList.add('image-loaded');
                 imageCache.set(locationImage, locationImage);
             };
@@ -2288,14 +2293,12 @@ function positionSliderMarks() {
     
     // Check if it's a region filter
     if (['Overworld', 'Snow', 'Cavern', 'Big City'].includes(filter)) {
-// Clear all region selections
-document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.remove('selected'));
+        item.classList.toggle('selected');
         
-        if (filters.region === filter) {
-            filters.region = null;
+        if (filters.regions.includes(filter)) {
+            filters.regions = filters.regions.filter(r => r !== filter);
         } else {
-            item.classList.add('selected');
-            filters.region = filter;
+            filters.regions.push(filter);
         }
         
         debounceApplyFilters();
@@ -2342,28 +2345,41 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
         function hasValue(value) {
             // Check if a CSV cell value indicates presence of that feature
             if (!value) return false;
-            const trimmed = value.trim();
-            // Empty, whitespace only, or empty brackets means not present
-            if (trimmed === '' || trimmed === '[]') return false;
-            return true;
+            const trimmed = value.trim().toLowerCase();
+            // Empty, whitespace only, empty brackets, or 'false' means not present
+            return trimmed !== '' && trimmed !== '[]' && trimmed !== 'false';
         }
 
         function loadCSV() {
             fetch('maps.csv')
                 .then(response => response.text())
                 .then(csvText => {
+                    if (csvText.charCodeAt(0) === 0xFEFF) {
+                        csvText = csvText.slice(1);
+                    }
                     Papa.parse(csvText, {
-                        header: true,
+                        header: false,
                         skipEmptyLines: true,
                         complete: function(results) {
-                            allMaps = results.data.filter(row => row['Main Project Image']).map(row => {
-                                return {
-                                    ...row,
-                                    mapImage: 'maps/' + extractFilename(row['Main Project Image']),
-                                    locationImage: 'locations/' + extractFilename(row['Image']),
-                                    _treeCount: parseInt(row.NumberofTrees) || 0
+                            allMaps = results.data.map(row => {
+                                if (!row[0]) return null;
+                                
+                                const mapObj = {
+                                    Thumbnail: row[0],
+                                    'Full Image': row[1],
+                                    _treeCount: parseInt(row[3]) || 0,
+                                    mapImage: 'maps/' + row[0] + '.png',
+                                    locationImage: 'locations/' + row[1] + '.png'
                                 };
-                            });
+                                
+                                // Add Biome and Tags as properties for filtering
+                                if (row[2]) mapObj[row[2]] = "true";
+                                for (let i = 4; i < row.length; i++) {
+                                    if (row[i]) mapObj[row[i].trim()] = "true";
+                                }
+                                
+                                return mapObj;
+                            }).filter(item => item !== null);
                             
                             // Debug: Count Snow maps
                             const snowCount = allMaps.filter(m => hasValue(m['Snow'])).length;
@@ -2408,8 +2424,9 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
 
         function checkMapMatches(map) {
             // Region filter
-            if (filters.region) {
-                if (!hasValue(map[filters.region])) return false;
+            if (filters.regions.length > 0) {
+                const matchesRegion = filters.regions.some(region => hasValue(map[region]));
+                if (!matchesRegion) return false;
             }
             
             // Entity filters - ALL selected entities must be present
@@ -2462,7 +2479,7 @@ document.querySelectorAll('.region-icons .icon-item').forEach(i => i.classList.r
         }
 
         function resetFilters() {
-    filters.region = null;
+    filters.regions = [];
     filters.entities = [];
     filters.additions = [];
     filters.treeCountMin = 1;

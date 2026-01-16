@@ -1,8 +1,10 @@
-const CACHE_NAME = 'kdassist-v1.0.9'; // Change version number to force update
+const CACHE_NAME = 'kdassist-v1.0.11'; // Change version number to force update
 const urlsToCache = [
   '/',
   '/index.html',
-  '/icons/map2a.png'
+  '/icons/map2a.png',
+  '/maps.csv',
+  '/script.js'
 ];
 
 // Install event - force immediate activation
