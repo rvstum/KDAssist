@@ -848,6 +848,9 @@
     text-decoration: none;
     box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     transition: transform 0.2s;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.2s;
 }
 
 .download-btn:hover {
@@ -857,6 +860,12 @@
 
 .download-btn:active {
     transform: scale(0.95);
+}
+
+.modal-content.image-loaded .download-btn {
+    opacity: 1;
+    pointer-events: auto;
+    transition-delay: 0.3s;
 }
 
 /* Install Modal Styles */
@@ -2053,9 +2062,9 @@ if ('serviceWorker' in navigator) {
             overlay.style.display = 'flex';
             let progress = 0;
             const interval = setInterval(() => {
-                if(progress < 90) {
-                    progress += Math.random() * 15;
-                    if(progress > 90) progress = 90;
+                if(progress < 99) {
+                    progress += Math.random() * 2;
+                    if(progress > 99) progress = 99;
                     if(pct) pct.textContent = Math.round(progress) + '%';
                     if(img) img.style.opacity = 0.2 + (0.8 * (progress / 100));
                 }
@@ -2065,7 +2074,7 @@ if ('serviceWorker' in navigator) {
                 clearInterval(interval);
                 if(pct) pct.textContent = '100%';
                 if(img) img.style.opacity = 1;
-                setTimeout(() => window.location.reload(), 200);
+                setTimeout(() => window.location.reload(), 100);
             };
 
             if (worker.state === 'installed' || worker.state === 'waiting') {
@@ -2185,7 +2194,6 @@ function showLocationImage(locationImage) {
             modal.classList.add('active');
             
             if (downloadBtn) {
-                downloadBtn.style.display = 'none';
                 downloadBtn.href = locationImage;
             }
             
@@ -2193,7 +2201,6 @@ function showLocationImage(locationImage) {
             img.onload = function() {
                 modalImg.src = locationImage;
                 modalImg.style.display = 'block';
-                if (downloadBtn) downloadBtn.style.display = 'flex';
                 spinner.style.display = 'none';
                 modalContent.classList.add('image-loaded');
                 imageCache.set(locationImage, locationImage);
