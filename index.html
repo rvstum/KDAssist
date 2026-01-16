@@ -1324,7 +1324,7 @@ div[style*="margin-bottom: 0px; padding: 5px 0px"] {
     /* MAKE RESET BUTTON VERTICALLY BIGGER */
 .reset-button {
     padding: 20px 20px !important;
-    width: 98% !important;
+    width: 90% !important;
     max-width: none !important;
     font-size: 22px !important;
     margin: 0 auto !important;
@@ -2005,6 +2005,14 @@ body {
     </div>
 </div>
 
+<div id="updateOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 9999; flex-direction: column; align-items: center; justify-content: center;">
+    <div style="color: #ffc43d; font-size: 24px; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;">Updating</div>
+    <div style="position: relative; width: 80px; height: 80px;">
+        <img src="icons/map2a.png" id="updateImage" style="width: 100%; height: 100%; object-fit: contain; opacity: 0.2; transition: opacity 0.3s ease;">
+        <div id="updatePercent" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ffffff; font-weight: bold; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">0%</div>
+    </div>
+</div>
+
     <script>
         let allMaps = [];
         let filteredMaps = [];
@@ -2044,11 +2052,33 @@ if ('serviceWorker' in navigator) {
             reg.addEventListener('updatefound', () => {
                 const newWorker = reg.installing;
                 
+                // Show update UI if this is an update (not first load)
+                const overlay = document.getElementById('updateOverlay');
+                const img = document.getElementById('updateImage');
+                const pct = document.getElementById('updatePercent');
+                let interval;
+
+                if (navigator.serviceWorker.controller) {
+                    if(overlay) overlay.style.display = 'flex';
+                    let progress = 0;
+                    interval = setInterval(() => {
+                        if(progress < 90) {
+                            progress += Math.random() * 10;
+                            if(progress > 90) progress = 90;
+                            if(pct) pct.textContent = Math.round(progress) + '%';
+                            if(img) img.style.opacity = 0.2 + (0.8 * (progress / 100));
+                        }
+                    }, 100);
+                }
+                
                 newWorker.addEventListener('statechange', () => {
                     // When new service worker is installed and there's an old one
                     if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        if (interval) clearInterval(interval);
+                        if(pct) pct.textContent = '100%';
+                        if(img) img.style.opacity = 1;
                         // Automatically reload to activate new version
-                        window.location.reload();
+                        setTimeout(() => window.location.reload(), 500);
                     }
                 });
             });
