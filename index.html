@@ -1983,7 +1983,7 @@ body {
                 <img src="icons/deco36.png" alt="High Five">
             </div>
             <div class="actions-wrapper">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdZCM0_Dw1-5hNlThhAt2E4AcP7f1SypPrKcN-UINI2mYNMPg/viewform" target="_blank" class="feedback-container">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdUTGNcAdm-dtiC6WWJ-lw6D3Tr9b-fOzCt3rWDKqgNwXHVEQ/viewform?usp=dialog" target="_blank" class="feedback-container">
                     <div class="feedback-text"><span style="color: #ffffff;">Send your</span> Feedback<span style="color: #ffffff;">!</span></div>
                     <div class="feedback-icon"><img src="icons/form1.png" alt="Feedback"></div>
                 </a>
@@ -2050,7 +2050,7 @@ body {
 });
 
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js').then(reg => {
+    navigator.serviceWorker.register('./service-worker.js').then(reg => {
         const showUpdate = (worker) => {
             const overlay = document.getElementById('updateOverlay');
             const img = document.getElementById('updateImage');
@@ -2652,22 +2652,6 @@ function positionSliderMarks() {
             currentPage = Math.max(0, Math.min(maxPage, currentPage + direction));
             updateDisplay();
         }
-
-
-
-        document.getElementById('installBtn').addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                deferredPrompt = null;
-                document.getElementById('installBtnWrapper').style.display = 'none';
-            }
-        });
-
-        // Hide after installation
-        window.addEventListener('appinstalled', () => {
-            document.getElementById('installBtnWrapper').style.display = 'none';
-        });
     </script>
 </body>
 </html>
