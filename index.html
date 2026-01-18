@@ -2234,7 +2234,7 @@
 </div>
 
     <div class="footer-section">
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 15px;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 12px;">
             <div style="color: #9e8c58; font-size: 11px; font-weight: bold; text-align: center; text-transform: uppercase; letter-spacing: 2px;">Honorable Mentions</div>
             <div style="color: #666666; font-size: 10px; text-align: center; font-style: italic;">To those who contributed, provided useful feedback, or assisted in any way.</div>
         </div>
@@ -2887,7 +2887,7 @@
 
         let html = pageMaps.map((map, index) => `
             <div class="map-thumbnail" draggable="false" onclick="showLocationImage('${map.locationImage}')" ontouchstart="preloadImage('${map.locationImage}')" onmouseenter="preloadImage('${map.locationImage}')">
-                <img src="${map.mapImage}" alt="" decoding="async" onerror="this.style.display='none'" draggable="false">
+                <img src="${map.mapImage}" alt="" onerror="this.style.display='none'" draggable="false">
             </div>
         `).join('');
 
@@ -2905,7 +2905,6 @@
         gallery.innerHTML = html;
 
         const images = gallery.querySelectorAll('img');
-        const totalImages = images.length;
         
         const checkAllLoaded = () => {
             if (spinner) spinner.style.display = 'none';
@@ -2913,20 +2912,21 @@
             gallery.style.pointerEvents = 'auto';
         };
 
-        if (totalImages === 0) {
-            checkAllLoaded();
-        } else {
-            let pending = totalImages;
-            const onImageEvent = () => {
-                pending--;
-                if (pending <= 0) checkAllLoaded();
-            };
+        const imagePromises = Array.from(images).map(img => {
+            if (img.decode) {
+                return img.decode().catch(() => {});
+            } else {
+                return new Promise(resolve => {
+                    if (img.complete) resolve();
+                    else {
+                        img.onload = resolve;
+                        img.onerror = resolve;
+                    }
+                });
+            }
+        });
 
-            images.forEach(img => {
-                if (img.complete) onImageEvent();
-                else { img.onload = onImageEvent; img.onerror = onImageEvent; }
-            });
-        }
+        Promise.all(imagePromises).then(checkAllLoaded);
 
         // Sequential background preloading to prevent network congestion
         // Only preload on desktop to save data/bandwidth on mobile
