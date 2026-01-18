@@ -530,6 +530,8 @@
         z-index: 9999999 !important;
     }
 
+    .mobile-reset { display: none; }
+
     .nav-right-wrapper {
         display: flex;
         flex-direction: column;
@@ -1445,22 +1447,17 @@
     height: auto !important;
 }
 
-.section-reset-wrapper > div:first-child {
+.desktop-reset { display: none !important; }
+
+.mobile-reset {
+    display: block !important;
     position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    top: auto !important;
-    text-align: center;
-    margin: 0 !important;
+    bottom: 10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 95% !important;
     z-index: 2147483647 !important;
-    background: transparent !important;
-    padding: 12px 5px !important;
-    border: none !important;
-    transform: translateZ(0) !important;
-    -webkit-transform: translateZ(0) !important;
-    isolation: isolate !important;
-    will-change: transform !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
 }
 
 /* MAKE RESET BUTTON VERTICALLY BIGGER */
@@ -2071,7 +2068,7 @@
 
     <div class="section-reset-wrapper" style="position: relative; height: 0;">
         <div style="position: absolute; left: 0; top: -65px;">
-            <button class="reset-button" id="resetBtn">Reset</button>
+            <button class="reset-button desktop-reset" id="resetBtnDesktop">Reset</button>
         </div>
         
         <div style="position: absolute; right: 0; top: -160px;">
@@ -2256,6 +2253,8 @@
             <div id="updatePercent" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ffffff; font-weight: bold; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">0%</div>
         </div>
     </div>
+
+    <button class="reset-button mobile-reset" id="resetBtnMobile">Reset</button>
 
         <script>
             let allMaps = [];
@@ -2462,9 +2461,9 @@
         };
 
         // Reset Button
-        const resetBtn = document.getElementById('resetBtn');
-        if (resetBtn) {
-            resetBtn.addEventListener('click', function() {
+        const resetBtnMobile = document.getElementById('resetBtnMobile');
+        if (resetBtnMobile) {
+            resetBtnMobile.addEventListener('click', function() {
                 if (window.innerWidth > 1024) return;
                 triggerAnimation(this, 'mobile-active', 100);
             });
@@ -2575,7 +2574,10 @@
                 updateSliderFill();
                 positionSliderMarks();
 
-                document.getElementById('resetBtn').addEventListener('click', resetFilters);
+                const desktopBtn = document.getElementById('resetBtnDesktop');
+                if(desktopBtn) desktopBtn.addEventListener('click', resetFilters);
+                const mobileBtn = document.getElementById('resetBtnMobile');
+                if(mobileBtn) mobileBtn.addEventListener('click', resetFilters);
                 document.getElementById('prevBtn').addEventListener('click', () => changePage(-1));
                 document.getElementById('nextBtn').addEventListener('click', () => changePage(1));
             }
