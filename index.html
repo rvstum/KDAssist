@@ -96,18 +96,19 @@
             }
 
             #app-layout {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                overflow-y: auto;
-                overflow-x: hidden;
-                padding: 5px 0 0 0;
-                overscroll-behavior: none;
-                touch-action: pan-y;
-                -webkit-overflow-scrolling: touch;
-            }
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 5px 0 0 0;
+       overscroll-behavior: none;
+        touch-action: pan-y;
+       -webkit-overflow-scrolling: touch;
+      z-index: 0;
+}
 
     .container {
                 max-width: 1000px;
@@ -2199,8 +2200,7 @@
         </div>
     </div>
 
-    <div class="footer-wrapper" style="width: 100%; background: linear-gradient(to bottom, transparent 114px, #000 114px); padding-bottom: 2px;">
-    <div style="width: 100px; margin: 0 auto 0px;">
+    <div class="footer-wrapper" style="width: 100%; background: linear-gradient(to bottom, transparent 114px, #000 114px); padding-bottom: 2px; position: relative; z-index: 1;">    <div style="width: 100px; margin: 0 auto 0px; position: relative; z-index: 1;">
     <img src="icons/deco36.png" alt="High Five" style="width: 100%; height: auto; display: block; pointer-events: auto;">
 </div>
     <div class="actions-wrapper">
@@ -2213,7 +2213,7 @@
             <div class="install-icon"><img src="icons/Mapicon.png" alt="Install"></div>
         </div>
     </div>
-    <div class="logo-container" style="max-width: 400px; margin: -60px auto 0; pointer-events: none; position: relative; z-index: 5;">
+    <div class="logo-container" style="max-width: 400px; margin: -60px auto 0; pointer-events: none; position: relative; z-index: 1;">
     <img src="icons/kdassist.gif" alt="KDAssist" style="width: 100%; height: auto; display: block; pointer-events: none;">
 </div>
     <div class="credits" style="text-align: center; color: #ffffff; font-size: 10px; line-height: 1.4; margin-top: -55px;">
