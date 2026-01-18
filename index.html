@@ -20,23 +20,7 @@
         <link rel="icon" href="icons/map2a.png" type="image/png">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
-        .section-reset-wrapper,
-.section-reset-wrapper *,
-#resetBtn {
-    z-index: 2147483647 !important;
-    pointer-events: auto !important;
-}
-
-.footer-wrapper,
-.footer-wrapper *,
-.footer-section,
-.footer-section *,
-.logo-container,
-.logo-container *,
-.actions-wrapper,
-.actions-wrapper * {
-    z-index: 1 !important;
-}
+        
     :root {
                 --preview-scale: 1.25;
             }
@@ -1467,6 +1451,7 @@
         border: none !important;
         transform: translateZ(0) !important;
         -webkit-transform: translateZ(0) !important;
+        isolation: isolate;
     }
 
         /* MAKE RESET BUTTON VERTICALLY BIGGER */
@@ -1483,6 +1468,7 @@
 
         .gallery-grid {
     grid-template-columns: repeat(3, 1fr) !important;
+    z-index: 1 !important;
     column-gap: 2px !important;
     row-gap: 0px !important;
     margin-bottom: 0px !important;
