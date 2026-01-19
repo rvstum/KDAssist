@@ -207,7 +207,8 @@
 
     .icon-item.mobile-active .icon-placeholder,
     .icon-item.mobile-active .icon-label {
-        transform: scale(1.1);
+        animation: tapPulse 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transform: none;
     }
 
     .icon-label.highlight {
@@ -581,7 +582,7 @@
                 border-radius: 8px;
                 transition: all 0.2s;
                 padding: 0;
-                overflow: hidden;
+                overflow: visible;
                 flex-shrink: 0;
                 touch-action: manipulation;
             }
@@ -599,6 +600,27 @@
 
     .nav-arrow:hover:not(:disabled) img {
                 filter: brightness(1.10);
+            }
+
+            @keyframes tapPulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.15); }
+                100% { transform: scale(1); }
+            }
+
+            @keyframes tapBrightness {
+                0% { filter: brightness(1); }
+                50% { filter: brightness(1.3); }
+                100% { filter: brightness(1); }
+            }
+
+            .nav-arrow.mobile-active {
+                animation: none;
+                transform: none;
+            }
+
+            .nav-arrow.mobile-active img {
+                animation: tapPulse 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             }
 
             .nav-arrow:disabled {
@@ -2090,9 +2112,9 @@
         <div class="gallery-grid" id="mapGallery" style="display: inline-grid; grid-template-columns: repeat(6, 1fr); column-gap: 4px; row-gap: 2px; flex: 1; align-items: start;">
         </div>
         <div class="nav-controls">
-            <button class="nav-arrow" id="prevBtn" style="width: 35px; height: 35px; background: transparent; border: none; cursor: pointer; border-radius: 8px; transition: all 0.2s; padding: 0; overflow: hidden; flex-shrink: 0; touch-action: manipulation; display: inline-block; position: relative;"><img src="icons/copyofdeco33.png" alt="Previous" style="width: 100%; height: 100%; object-fit: contain;"></button>
+            <button class="nav-arrow" id="prevBtn" style="width: 35px; height: 35px; background: transparent; border: none; cursor: pointer; border-radius: 8px; transition: all 0.2s; padding: 0; overflow: visible; flex-shrink: 0; touch-action: manipulation; display: inline-block; position: relative;"><img src="icons/copyofdeco33.png" alt="Previous" style="width: 100%; height: 100%; object-fit: contain;"></button>
             <div id="pageCounter" class="page-counter" style="color: #ffedc5; font-size: 16px; font-weight: bold; margin-bottom: 2px; white-space: nowrap; min-width: 50px; text-align: center; display: inline-block;"><span style="color: #e6d5b1">1</span><span style="color: #ffc43d">/1</span></div>
-            <button class="nav-arrow" id="nextBtn" style="width: 35px; height: 35px; background: transparent; border: none; cursor: pointer; border-radius: 8px; transition: all 0.2s; padding: 0; overflow: hidden; flex-shrink: 0; touch-action: manipulation; display: inline-block; position: relative;"><img src="icons/copyofdeco33edited.png" alt="Next" style="width: 100%; height: 100%; object-fit: contain;"></button>
+            <button class="nav-arrow" id="nextBtn" style="width: 35px; height: 35px; background: transparent; border: none; cursor: pointer; border-radius: 8px; transition: all 0.2s; padding: 0; overflow: visible; flex-shrink: 0; touch-action: manipulation; display: inline-block; position: relative;"><img src="icons/copyofdeco33edited.png" alt="Next" style="width: 100%; height: 100%; object-fit: contain;"></button>
         </div>
     </div>
 
@@ -2496,6 +2518,8 @@ async function handleDownload() {
             function setupMobileAnimations() {
         // Helper to add temporary class for animation
         const triggerAnimation = (element, className, duration) => {
+            element.classList.remove(className);
+            void element.offsetWidth; // trigger reflow
             element.classList.add(className);
             setTimeout(() => {
                 element.classList.remove(className);
@@ -2510,6 +2534,22 @@ async function handleDownload() {
                 triggerAnimation(this, 'mobile-active', 100);
             });
         }
+
+        // Nav Arrows
+        document.querySelectorAll('.nav-arrow').forEach(arrow => {
+            arrow.addEventListener('click', function() {
+                if (window.innerWidth > 1024 || this.disabled) return;
+                triggerAnimation(this, 'mobile-active', 180);
+            });
+        });
+
+        // Filter Icons
+        document.querySelectorAll('.icon-item').forEach(item => {
+            item.addEventListener('click', function() {
+                if (window.innerWidth > 1024) return;
+                triggerAnimation(this, 'mobile-active', 180);
+            });
+        });
     }
 
     function preloadImage(url) {
