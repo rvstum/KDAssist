@@ -678,8 +678,14 @@
                 }
             }
 
+            @keyframes mapTap {
+                0% { transform: scale(1); }
+                50% { transform: scale(0.95); }
+                100% { transform: scale(1); }
+            }
+
             .map-thumbnail.mobile-active {
-                animation: tapPulse 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                animation: mapTap 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             }
 
             .map-thumbnail img {
@@ -2590,9 +2596,10 @@ async function handleDownload(url, name) {
             void element.offsetWidth;
             element.classList.add('mobile-active');
             setTimeout(() => element.classList.remove('mobile-active'), 200);
+            setTimeout(() => showLocationImage(url), 50);
+        } else {
+            showLocationImage(url);
         }
-        
-        showLocationImage(url);
     }
 
     function showLocationImage(locationImage) {
