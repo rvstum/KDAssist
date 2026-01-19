@@ -2482,10 +2482,15 @@
                     closeInstallModal();
                 });
             }
-async function handleDownload() {
+async function handleDownload(url, name) {
     const downloadBtn = document.getElementById('downloadBtn');
-    const imageUrl = downloadBtn.dataset.imageUrl;
-    const imageName = downloadBtn.dataset.imageName || 'graal-map.png';
+    let imageUrl = url;
+    let imageName = name;
+
+    if (!imageUrl && downloadBtn) {
+        imageUrl = downloadBtn.dataset.imageUrl;
+        imageName = downloadBtn.dataset.imageName || 'graal-map.png';
+    }
     
     try {
         // Load image into canvas to strip EXIF metadata (old creation date)
@@ -2986,7 +2991,7 @@ async function handleDownload() {
         const pageMaps = filteredMaps.slice(start, end);
 
         let html = pageMaps.map((map, index) => `
-            <div class="map-thumbnail" draggable="false" onclick="showLocationImage('${map.locationImage}')" ontouchstart="preloadImage('${map.locationImage}')" onmouseenter="preloadImage('${map.locationImage}')">
+            <div class="map-thumbnail" draggable="false" onclick="if(!this.dataset.longPress) showLocationImage('${map.locationImage}')" ontouchstart="preloadImage('${map.locationImage}')" onmouseenter="preloadImage('${map.locationImage}')">
                 <img src="${map.mapImage}" alt="" onerror="this.style.display='none'" draggable="false">
             </div>
         `).join('');
@@ -3003,6 +3008,33 @@ async function handleDownload() {
         }
 
         gallery.innerHTML = html;
+
+        // Add long press listeners for mobile download
+        if (window.innerWidth <= 1024) {
+            gallery.querySelectorAll('.map-thumbnail').forEach(thumb => {
+                let pressTimer;
+                const img = thumb.querySelector('img');
+                
+                thumb.addEventListener('touchstart', () => {
+                    pressTimer = setTimeout(() => {
+                        thumb.dataset.longPress = 'true';
+                        if (navigator.vibrate) navigator.vibrate(50);
+                        if (img && img.src) handleDownload(img.src, img.src.split('/').pop());
+                    }, 500);
+                }, { passive: true });
+
+                thumb.addEventListener('touchend', () => {
+                    clearTimeout(pressTimer);
+                    if (thumb.dataset.longPress) {
+                        setTimeout(() => delete thumb.dataset.longPress, 100);
+                    }
+                }, { passive: true });
+
+                thumb.addEventListener('touchmove', () => {
+                    clearTimeout(pressTimer);
+                }, { passive: true });
+            });
+        }
 
         const images = gallery.querySelectorAll('img');
         
