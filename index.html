@@ -2434,6 +2434,7 @@
                         modal.classList.remove('active');
                         modal.classList.remove('closing');
                         content.classList.remove('closing');
+                        content.classList.remove('image-loaded');
                     }, { once: true });
                 }
 
@@ -2582,6 +2583,9 @@ async function handleDownload() {
                 modalContent.classList.remove('image-loaded');
                 modal.classList.add('active');
                 
+                // Force reflow to ensure animation plays every time
+                void modalContent.offsetWidth;
+                
                 if (downloadBtn) {
     downloadBtn.dataset.imageUrl = locationImage;
     downloadBtn.dataset.imageName = locationImage.split('/').pop();
@@ -2589,11 +2593,13 @@ async function handleDownload() {
                 
                 const img = new Image();
                 img.onload = function() {
-                    modalImg.src = locationImage;
-                    modalImg.style.display = 'block';
-                    spinner.style.display = 'none';
-                    modalContent.classList.add('image-loaded');
-                    imageCache.set(locationImage, locationImage);
+                    requestAnimationFrame(() => {
+                        modalImg.src = locationImage;
+                        modalImg.style.display = 'block';
+                        spinner.style.display = 'none';
+                        modalContent.classList.add('image-loaded');
+                        imageCache.set(locationImage, locationImage);
+                    });
                 };
                 img.src = locationImage;
             }
